@@ -12,7 +12,7 @@
   "author": "https://www.zengenti.com/",
   "license": "ISC",
   "publishConfig": {
-    "access": "public"
+    "access": "restricted"
   },
   "devDependencies": {
     "@rollup/plugin-babel": "^5.3.1",
