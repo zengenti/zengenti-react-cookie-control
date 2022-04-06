@@ -1,5 +1,5 @@
 {
-  "name": "@zengenti/react-cookie-control",
+  "name": "zengenti-react-cookie-control",
   "version": "1.0.0",
   "description": "A react cookie control",
   "repository": "https://github.com/zengenti/zengenti-react-cookie-control",
@@ -11,9 +11,6 @@
   },
   "author": "https://www.zengenti.com/",
   "license": "ISC",
-  "publishConfig": {
-    "access": "restricted"
-  },
   "devDependencies": {
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^21.0.3",
