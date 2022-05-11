@@ -77,6 +77,7 @@ const UpdatePreferences = (props: UpdatePreferencesProps) => {
 
   return (
     <UpdatePreferencesStyled
+      data-nosnippet
       className={`zen-cc-up ${showUpdatePreferences ? 'open' : 'closed'}`}
     >
       <div className="zen-cc-up__modal" ref={el}>

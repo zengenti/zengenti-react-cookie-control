@@ -31,7 +31,7 @@ const CookieControl = ({ content }: CookieControlProps) => {
   }, [showCookieControl]);
 
   return showCookieControl ? (
-    <CookieControlStyled className="zen-cc-cc">
+    <CookieControlStyled className="zen-cc-cc" data-nosnippet>
       <div className="zen-cc-cc__inner">
         <div className="zen-cc-cc__close">
           <CloseButton onClick={() => updatePreferences()} />
