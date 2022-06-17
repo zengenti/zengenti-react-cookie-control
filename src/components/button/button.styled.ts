@@ -21,17 +21,18 @@ const ButtonStyled = styled.button`
           padding: ${theme?.button?.padding};
           text-decoration: none;
           transition: all 300ms ease 0s;
-
+          &:focus {
+            outline: transparent;
+            box-shadow: 0 0 0 3px #4c9aff !important;
+          }
           &.solid {
             background: ${theme?.button?.solid?.background};
             color: ${theme?.button?.solid?.color};
-
             &:hover {
               background: ${theme?.button?.solid?.hover?.background};
               color: ${theme?.button?.solid?.hover?.color};
             }
           }
-
           &.hollow {
             &:hover {
               box-shadow: ${theme?.button?.borderColor} 0px 0px 0px 1px inset;

@@ -45,6 +45,10 @@ const CookieControlStyled = styled.div`
 
       a {
         color: ${theme?.linkColor};
+        &:focus {
+          outline: transparent;
+          box-shadow: 0 0 0 3px #4c9aff !important;
+        }
       }
     }
 

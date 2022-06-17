@@ -76,7 +76,8 @@ const ToggleStyled = styled.span`
     }
 
     input:focus + label {
-      text-decoration: underline;
+      outline: transparent;
+      box-shadow: 0 0 0 3px #4c9aff !important;
     }
   `}
 `;

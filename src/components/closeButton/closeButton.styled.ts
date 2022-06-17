@@ -6,6 +6,10 @@ const CloseButtonStyled = styled.button`
   cursor: pointer;
   height: 40px;
   width: 40px;
+  &:focus {
+    outline: transparent;
+    box-shadow: 0 0 0 3px #4c9aff !important;
+  }
 
   &::before {
     color: ${props => props.theme?.iconColor};

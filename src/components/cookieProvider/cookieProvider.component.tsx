@@ -98,11 +98,11 @@ const withCookieProvider =
 
     return (
       <CookieContext.Provider value={cookieState}>
-        <Component {...props} />
         <ThemeProvider theme={{ ...defaultTheme, ...theme }}>
           <CookieControl {...cookieControl} />
           <UpdatePreferences {...updatePreferences} />
         </ThemeProvider>
+        <Component {...props} />
       </CookieContext.Provider>
     );
   };
