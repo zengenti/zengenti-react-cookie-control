@@ -2,7 +2,7 @@
   ${({theme:e})=>{var o,n,l,i,a;return t.css`
     background: ${null==e?void 0:e.background};
     bottom: 0;
-    box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 24px rgba(127, 154, 198, 0.2);
     left: 0;
     max-height: 70vh;
     overflow-y: auto;
@@ -227,7 +227,7 @@
     .zen-cc-up__modal {
       background: ${null==e?void 0:e.background};
       bottom: 0;
-      box-shadow: -5px 0 10px rgba(0, 0, 0, 0.4);
+      box-shadow: 0px 0px 24px rgba(127, 154, 198, 0.2);
       left: 100%;
       max-width: 90vw;
       overflow: hidden;
@@ -255,6 +255,7 @@
 
     &.closed > .zen-cc-up__modal {
       transform: translateX(0);
+      box-shadow: none;
     }
 
     .zen-cc-up__inner {

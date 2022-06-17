@@ -4,7 +4,7 @@ const CookieControlStyled = styled.div`
   ${({ theme }) => css`
     background: ${theme?.background};
     bottom: 0;
-    box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 24px rgba(127, 154, 198, 0.2);
     left: 0;
     max-height: 70vh;
     overflow-y: auto;

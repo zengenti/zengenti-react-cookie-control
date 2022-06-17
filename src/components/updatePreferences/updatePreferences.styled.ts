@@ -5,7 +5,7 @@ const UpdatePreferencesStyled = styled.div`
     .zen-cc-up__modal {
       background: ${theme?.background};
       bottom: 0;
-      box-shadow: -5px 0 10px rgba(0, 0, 0, 0.4);
+      box-shadow: 0px 0px 24px rgba(127, 154, 198, 0.2);
       left: 100%;
       max-width: 90vw;
       overflow: hidden;
@@ -33,6 +33,7 @@ const UpdatePreferencesStyled = styled.div`
 
     &.closed > .zen-cc-up__modal {
       transform: translateX(0);
+      box-shadow: none;
     }
 
     .zen-cc-up__inner {

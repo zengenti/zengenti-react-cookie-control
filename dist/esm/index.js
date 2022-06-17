@@ -2,7 +2,7 @@ import e,{createContext as n,useContext as o,useState as t,useEffect as l,useMem
   ${({theme:e})=>{var n,o,t,l,i;return r`
     background: ${null==e?void 0:e.background};
     bottom: 0;
-    box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 24px rgba(127, 154, 198, 0.2);
     left: 0;
     max-height: 70vh;
     overflow-y: auto;
@@ -227,7 +227,7 @@ import e,{createContext as n,useContext as o,useState as t,useEffect as l,useMem
     .zen-cc-up__modal {
       background: ${null==e?void 0:e.background};
       bottom: 0;
-      box-shadow: -5px 0 10px rgba(0, 0, 0, 0.4);
+      box-shadow: 0px 0px 24px rgba(127, 154, 198, 0.2);
       left: 100%;
       max-width: 90vw;
       overflow: hidden;
@@ -255,6 +255,7 @@ import e,{createContext as n,useContext as o,useState as t,useEffect as l,useMem
 
     &.closed > .zen-cc-up__modal {
       transform: translateX(0);
+      box-shadow: none;
     }
 
     .zen-cc-up__inner {
