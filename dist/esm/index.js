@@ -89,7 +89,7 @@ import e,{createContext as n,useContext as o,useState as t,useEffect as l,useMem
       }
     }
   `}}
-`,b=a.span`
+`,x=a.span`
   ${({theme:e})=>{var n,o,t,l,i,c,a,d;return r`
     display: inline-block;
     min-height: 24px;
@@ -169,8 +169,8 @@ import e,{createContext as n,useContext as o,useState as t,useEffect as l,useMem
       box-shadow: 0 0 0 3px #4c9aff !important;
     }
   `}}
-`,x=({id:n,isChecked:o,label:t,onClick:l})=>e.createElement(b,{className:"zen-cc-toggle "+(o?"checked":"")},e.createElement("input",{checked:o,className:"zen-cc-toggle__checkbox",id:n,onChange:e=>l(),type:"checkbox"}),e.createElement("label",{className:"zen-cc-toggle__label",htmlFor:n},t)),k=a.button`
-  ${({theme:e})=>{var n,o,t,l,i,c,a,d,s,u,p,m,v,f,g,h,b,x;return e.button.customStyles?r`
+`,b=({id:n,isChecked:o,label:t,onClick:l})=>e.createElement(x,{className:"zen-cc-toggle "+(o?"checked":"")},e.createElement("input",{checked:o,className:"zen-cc-toggle__checkbox",id:n,onChange:e=>l(),type:"checkbox"}),e.createElement("label",{className:"zen-cc-toggle__label",htmlFor:n},t)),k=a.button`
+  ${({theme:e})=>{var n,o,t,l,i,c,a,d,s,u,p,m,v,f,g,h,x,b;return e.button.customStyles?r`
           ${e.button.customStyles}
         `:r`
           background: none;
@@ -196,35 +196,29 @@ import e,{createContext as n,useContext as o,useState as t,useEffect as l,useMem
             color: ${null===(p=null===(u=null==e?void 0:e.button)||void 0===u?void 0:u.solid)||void 0===p?void 0:p.color};
             &:hover {
               background: ${null===(f=null===(v=null===(m=null==e?void 0:e.button)||void 0===m?void 0:m.solid)||void 0===v?void 0:v.hover)||void 0===f?void 0:f.background};
-              color: ${null===(b=null===(h=null===(g=null==e?void 0:e.button)||void 0===g?void 0:g.solid)||void 0===h?void 0:h.hover)||void 0===b?void 0:b.color};
+              color: ${null===(x=null===(h=null===(g=null==e?void 0:e.button)||void 0===g?void 0:g.solid)||void 0===h?void 0:h.hover)||void 0===x?void 0:x.color};
             }
           }
           &.hollow {
             &:hover {
-              box-shadow: ${null===(x=null==e?void 0:e.button)||void 0===x?void 0:x.borderColor} 0px 0px 0px 1px inset;
+              box-shadow: ${null===(b=null==e?void 0:e.button)||void 0===b?void 0:b.borderColor} 0px 0px 0px 1px inset;
             }
           }
         `}}
-`,_=({label:n,onClick:o,type:t="solid"})=>e.createElement(k,{className:`zen-cc-button ${t}`,onClick:o},n),y=a.button`
+`,w=({label:n,onClick:o,type:t="solid"})=>e.createElement(k,{className:`zen-cc-button ${t}`,onClick:o},n),y=a.button`
   background: transparent;
   border: none;
   cursor: pointer;
   height: 40px;
   width: 40px;
+  color: ${e=>{var n;return null===(n=e.theme)||void 0===n?void 0:n.iconColor}};
+  font-size: 32px;
+    line-height: 40px;
   &:focus {
     outline: transparent;
     box-shadow: 0 0 0 3px #4c9aff !important;
   }
-
-  &::before {
-    color: ${e=>{var n;return null===(n=e.theme)||void 0===n?void 0:n.iconColor}};
-    content: '\\2716';
-    display: block;
-    font-size: 32px;
-    line-height: 40px;
-  }
-
-  span {
+  .sr-only {
     height: 1px;
     left: -10000px;
     overflow: hidden;
@@ -232,7 +226,7 @@ import e,{createContext as n,useContext as o,useState as t,useEffect as l,useMem
     top: auto;
     width: 1px;
   }
-`,w=({onClick:n})=>e.createElement(y,{onClick:n},e.createElement("span",null,"Close")),C=({content:n})=>{const{acceptAll:o,analytics:t,declineAll:i,defaultCookiePreferences:c,functional:a,marketing:r,setAnalytics:d,setFunctional:s,setMarketing:p,showCookieControl:m,updatePreferences:v}=u();return l((()=>{m&&(d(c.analytics),s(c.functional),p(c.marketing))}),[m]),m?e.createElement(h,{className:"zen-cc-cc","data-nosnippet":!0},e.createElement("div",{className:"zen-cc-cc__inner"},e.createElement("div",{className:"zen-cc-cc__close"},e.createElement(w,{onClick:()=>v()})),e.createElement("div",{className:"zen-cc-cc__flex"},e.createElement("div",null,n&&e.createElement("div",{className:"zen-cc-cc__content",dangerouslySetInnerHTML:{__html:n}}),e.createElement("div",{className:"zen-cc-cc__toggles"},e.createElement(x,{id:"cc-marketing",isChecked:r,label:"Marketing",onClick:()=>p((e=>!e))}),e.createElement(x,{id:"cc-functional",isChecked:a,label:"Functional",onClick:()=>s((e=>!e))}),e.createElement(x,{id:"cc-analytics",isChecked:t,label:"Analytics",onClick:()=>d((e=>!e))}))),e.createElement("div",{className:"zen-cc-cc__buttons"},e.createElement("div",{className:"zen-cc-cc__button-wrap"},e.createElement(_,{label:"Accept all",onClick:()=>o(),type:"hollow"})),e.createElement("div",{className:"zen-cc-cc__button-wrap"},e.createElement(_,{label:"Decline all",onClick:()=>i(),type:"hollow"})),e.createElement("div",{className:"zen-cc-cc__button-wrap"},e.createElement(_,{label:"Save preferences",onClick:()=>v()})))))):null},z=a.div`
+`,_=({onClick:n})=>e.createElement(y,{onClick:n},e.createElement("svg",{width:"24",height:"24",fill:"none",xmlns:"http://www.w3.org/2000/svg"},e.createElement("path",{d:"M18.3 5.71a.996.996 0 0 0-1.41 0L12 10.59 7.11 5.7A.997.997 0 1 0 5.7 7.11L10.59 12 5.7 16.89a.997.997 0 0 0 1.41 1.41L12 13.41l4.89 4.89a.997.997 0 0 0 1.41-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4Z",fill:"#002033"})),e.createElement("span",{className:"sr-only"},"Close cookie banner")),C=({content:n})=>{const{acceptAll:o,analytics:t,declineAll:i,defaultCookiePreferences:c,functional:a,marketing:r,setAnalytics:d,setFunctional:s,setMarketing:p,showCookieControl:m,updatePreferences:v}=u();return l((()=>{m&&(d(c.analytics),s(c.functional),p(c.marketing))}),[m]),m?e.createElement(h,{className:"zen-cc-cc","data-nosnippet":!0},e.createElement("div",{className:"zen-cc-cc__inner"},e.createElement("div",{className:"zen-cc-cc__close"},e.createElement(_,{onClick:()=>v()})),e.createElement("div",{className:"zen-cc-cc__flex"},e.createElement("div",null,n&&e.createElement("div",{className:"zen-cc-cc__content",dangerouslySetInnerHTML:{__html:n}}),e.createElement("div",{className:"zen-cc-cc__toggles"},e.createElement(b,{id:"cc-marketing",isChecked:r,label:"Marketing",onClick:()=>p((e=>!e))}),e.createElement(b,{id:"cc-functional",isChecked:a,label:"Functional",onClick:()=>s((e=>!e))}),e.createElement(b,{id:"cc-analytics",isChecked:t,label:"Analytics",onClick:()=>d((e=>!e))}))),e.createElement("div",{className:"zen-cc-cc__buttons"},e.createElement("div",{className:"zen-cc-cc__button-wrap"},e.createElement(w,{label:"Accept all",onClick:()=>o(),type:"hollow"})),e.createElement("div",{className:"zen-cc-cc__button-wrap"},e.createElement(w,{label:"Decline all",onClick:()=>i(),type:"hollow"})),e.createElement("div",{className:"zen-cc-cc__button-wrap"},e.createElement(w,{label:"Save preferences",onClick:()=>v()})))))):null},z=a.div`
   ${({theme:e})=>{var n,o,t,l,i,c,a,d,s,u;return r`
     .zen-cc-up__modal {
       background: ${null==e?void 0:e.background};
@@ -314,7 +308,18 @@ import e,{createContext as n,useContext as o,useState as t,useEffect as l,useMem
       margin-top: 24px;
     }
   `}}
-`,E=({isChecked:n,label:o,onClick:t,summary:l,title:i})=>l||o?e.createElement("div",{className:"zen-cc-up__section"},e.createElement("div",{className:"zen-cc-up__title"},i),l&&e.createElement("div",{className:"zen-cc-up__summary",dangerouslySetInnerHTML:{__html:l}}),o&&t&&e.createElement(x,{id:`cp-${o.toLowerCase().replace(/ /g,"-")}`,isChecked:!!n,label:o,onClick:t})):null,$=n=>{const{analytics:o,marketing:t,functional:i,setAnalytics:a,setMarketing:r,setFunctional:d,showUpdatePreferences:s,toggleShowUpdatePreferences:p,updatePreferences:m}=u(),v=c(null);return l((()=>{const e=e=>v.current&&!v.current.contains(e.target)&&s&&p();return s?setTimeout((()=>document.addEventListener("click",e,!1)),100):document.removeEventListener("click",e,!1),()=>{document.removeEventListener("click",e,!1)}}),[s,p]),e.createElement(z,{"data-nosnippet":!0,className:"zen-cc-up "+(s?"open":"closed")},e.createElement("div",{className:"zen-cc-up__modal",ref:v},e.createElement("div",{className:"zen-cc-up__inner"},e.createElement("div",{className:"zen-cc-up__close"},e.createElement(w,{onClick:()=>p()})),n.content&&e.createElement("div",{className:"zen-cc-up__section",dangerouslySetInnerHTML:{__html:n.content}}),e.createElement(E,{summary:n.necessary,title:"Necessary Cookies"}),e.createElement(E,{isChecked:i,label:"Functional",onClick:()=>d(!i),summary:n.functional,title:"Functional Cookies"}),e.createElement(E,{isChecked:o,label:"Analytics",onClick:()=>a(!o),summary:n.analytics,title:"Analytical Cookies"}),e.createElement(E,{isChecked:t,label:"Marketing",onClick:()=>r(!t),summary:n.marketing,title:"Marketing Cookies"}),e.createElement("div",{className:"zen-cc-up__save"},e.createElement(_,{label:"Save Preferences",onClick:()=>{m(),p()}})))))},P=({cookieControl:n,defaultCookiePreferences:o,updatePreferences:c,theme:a})=>r=>u=>{var p=
+`,E=({isChecked:n,label:o,onClick:t,summary:l,title:i})=>l||o?e.createElement("div",{className:"zen-cc-up__section"},e.createElement("div",{className:"zen-cc-up__title"},i),l&&e.createElement("div",{className:"zen-cc-up__summary",dangerouslySetInnerHTML:{__html:l}}),o&&t&&e.createElement(b,{id:`cp-${o.toLowerCase().replace(/ /g,"-")}`,isChecked:!!n,label:o,onClick:t})):null,$=n=>{const{analytics:o,marketing:t,functional:i,setAnalytics:a,setMarketing:r,setFunctional:d,showUpdatePreferences:s,toggleShowUpdatePreferences:p,updatePreferences:m}=u(),v=c(null);return l((()=>{const e=e=>v.current&&!v.current.contains(e.target)&&s&&p();return s?setTimeout((()=>document.addEventListener("click",e,!1)),100):document.removeEventListener("click",e,!1),()=>{document.removeEventListener("click",e,!1)}}),[s,p]),e.createElement(z,{"data-nosnippet":!0,className:"zen-cc-up "+(s?"open":"closed")},e.createElement("div",{className:"zen-cc-up__modal",ref:v},e.createElement("div",{className:"zen-cc-up__inner"},e.createElement("div",{className:"zen-cc-up__close"},e.createElement(_,{onClick:()=>p()})),n.content&&e.createElement("div",{className:"zen-cc-up__section",dangerouslySetInnerHTML:{__html:n.content}}),e.createElement(E,{summary:n.necessary,title:"Necessary Cookies"}),e.createElement(E,{isChecked:i,label:"Functional",onClick:()=>d(!i),summary:n.functional,title:"Functional Cookies"}),e.createElement(E,{isChecked:o,label:"Analytics",onClick:()=>a(!o),summary:n.analytics,title:"Analytical Cookies"}),e.createElement(E,{isChecked:t,label:"Marketing",onClick:()=>r(!t),summary:n.marketing,title:"Marketing Cookies"}),e.createElement("div",{className:"zen-cc-up__save"},e.createElement(w,{label:"Save Preferences",onClick:()=>{m(),p()}})))))},N=a.div`
+  ${()=>r`
+    .sr-only {
+      height: 1px;
+      left: -10000px;
+      overflow: hidden;
+      position: absolute;
+      top: auto;
+      width: 1px;
+    }
+  `}
+`,P=({cookieControl:n,defaultCookiePreferences:o,updatePreferences:c,theme:a})=>r=>u=>{var p=
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
 
@@ -329,5 +334,5 @@ LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
 OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 PERFORMANCE OF THIS SOFTWARE.
 ***************************************************************************** */
-function(e,n){var o={};for(var t in e)Object.prototype.hasOwnProperty.call(e,t)&&n.indexOf(t)<0&&(o[t]=e[t]);if(null!=e&&"function"==typeof Object.getOwnPropertySymbols){var l=0;for(t=Object.getOwnPropertySymbols(e);l<t.length;l++)n.indexOf(t[l])<0&&Object.prototype.propertyIsEnumerable.call(e,t[l])&&(o[t[l]]=e[t[l]])}return o}(u,[]);const[m,h]=t(!1),[b,x]=t(!1),[k,_]=t(!1),[y,w]=t(!1),[z,E]=t(!1),[P,N]=t([]);l((()=>{const e=v("zen-cc");if(e){const{analytics:n,functional:o,marketing:t}=JSON.parse(e);h(!!n),x(!!o),_(!!t)}else w(!0)}),[]),l((()=>{if("undefined"!=typeof window&&2===P.length){const e=P[0],n=P[1];P&&Object.keys(e).some((o=>e[o]&&!n[o]))&&window.location.reload(),N((e=>[...e.slice(1)]))}}),[P]);const S=i((()=>({analytics:m,defaultCookiePreferences:o,marketing:k,functional:b,set:({analytics:e,functional:n,marketing:o})=>{h(e),x(n),_(o),w(!1),f("zen-cc",JSON.stringify({analytics:e,functional:n,marketing:o}),90),N((t=>[...t,{analytics:e,functional:n,marketing:o}]))},showCookieControl:y,showUpdatePreferences:z,toggleShowUpdatePreferences:()=>E((e=>!e))})),[m,b,k,y,z]);return e.createElement(s.Provider,{value:S},e.createElement(d,{theme:Object.assign(Object.assign({},g),a)},e.createElement(C,Object.assign({},n)),e.createElement($,Object.assign({},c))),e.createElement(r,Object.assign({},p)))};export{m as ToggleUpdatePreferences,v as getCookieValue,f as setCookieValue,u as useCookieControl,P as withCookieProvider};
+function(e,n){var o={};for(var t in e)Object.prototype.hasOwnProperty.call(e,t)&&n.indexOf(t)<0&&(o[t]=e[t]);if(null!=e&&"function"==typeof Object.getOwnPropertySymbols){var l=0;for(t=Object.getOwnPropertySymbols(e);l<t.length;l++)n.indexOf(t[l])<0&&Object.prototype.propertyIsEnumerable.call(e,t[l])&&(o[t[l]]=e[t[l]])}return o}(u,[]);const[m,h]=t(!1),[x,b]=t(!1),[k,w]=t(!1),[y,_]=t(!1),[z,E]=t(!1),[P,S]=t([]);l((()=>{const e=v("zen-cc");if(e){const{analytics:n,functional:o,marketing:t}=JSON.parse(e);h(!!n),b(!!o),w(!!t)}else _(!0)}),[]),l((()=>{if("undefined"!=typeof window&&2===P.length){const e=P[0],n=P[1];P&&Object.keys(e).some((o=>e[o]&&!n[o]))&&window.location.reload(),S((e=>[...e.slice(1)]))}}),[P]);const O=i((()=>({analytics:m,defaultCookiePreferences:o,marketing:k,functional:x,set:({analytics:e,functional:n,marketing:o})=>{h(e),b(n),w(o),_(!1),f("zen-cc",JSON.stringify({analytics:e,functional:n,marketing:o}),90),S((t=>[...t,{analytics:e,functional:n,marketing:o}]))},showCookieControl:y,showUpdatePreferences:z,toggleShowUpdatePreferences:()=>E((e=>!e))})),[m,x,k,y,z]);return e.createElement(s.Provider,{value:O},e.createElement(N,{"data-nosnippet":!0},e.createElement("h2",{className:"sr-only"},"Cookie control banner"),e.createElement(d,{theme:Object.assign(Object.assign({},g),a)},e.createElement(C,Object.assign({},n)),e.createElement($,Object.assign({},c))),e.createElement(r,Object.assign({},p))))};export{m as ToggleUpdatePreferences,v as getCookieValue,f as setCookieValue,u as useCookieControl,P as withCookieProvider};
 //# sourceMappingURL=index.js.map
