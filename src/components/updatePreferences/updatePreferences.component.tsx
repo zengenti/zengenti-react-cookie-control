@@ -54,6 +54,7 @@ const UpdatePreferences = (props: UpdatePreferencesProps) => {
   const el = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const originalStyle = window.getComputedStyle(document.body).overflow;
     const eventHandler = (e: any) =>
       el.current &&
       !el.current.contains(e.target) &&
@@ -61,6 +62,11 @@ const UpdatePreferences = (props: UpdatePreferencesProps) => {
       toggleShowUpdatePreferences();
 
     if (showUpdatePreferences) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+      document.body.style.overflow = "hidden";
       // Add timeout to prevent eventHandler auto executing
       setTimeout(
         () => document.addEventListener('click', eventHandler, false),
@@ -71,15 +77,18 @@ const UpdatePreferences = (props: UpdatePreferencesProps) => {
     }
 
     return () => {
+      document.body.style.overflow = originalStyle;
       document.removeEventListener('click', eventHandler, false);
     };
   }, [showUpdatePreferences, toggleShowUpdatePreferences]);
 
-  return (
+
+  return showUpdatePreferences ? (
     <UpdatePreferencesStyled
       data-nosnippet
       className={`zen-cc-up ${showUpdatePreferences ? 'open' : 'closed'}`}
     >
+      <h2 className='sr-only'>Cookie control banner</h2>
       <div className="zen-cc-up__modal" ref={el}>
         <div className="zen-cc-up__inner">
           <div className="zen-cc-up__close">
@@ -128,7 +137,7 @@ const UpdatePreferences = (props: UpdatePreferencesProps) => {
         </div>
       </div>
     </UpdatePreferencesStyled>
-  );
+  ) : null;
 };
 
 export default UpdatePreferences;

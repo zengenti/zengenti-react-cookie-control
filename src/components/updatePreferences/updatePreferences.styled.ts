@@ -25,6 +25,7 @@ const UpdatePreferencesStyled = styled.div`
         bottom: 0;
         left: 0;
         background: rgba(0, 0, 0, 0.25);
+        z-index: 99;
       }
       & > .zen-cc-up__modal {
         transform: translateX(-100%);
@@ -80,6 +81,14 @@ const UpdatePreferencesStyled = styled.div`
 
     .zen-cc-up__save {
       margin-top: 24px;
+    }
+    .sr-only {
+      height: 1px;
+      left: -10000px;
+      overflow: hidden;
+      position: absolute;
+      top: auto;
+      width: 1px;
     }
   `}
 `;

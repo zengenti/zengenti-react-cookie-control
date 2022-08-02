@@ -8,7 +8,6 @@ import { defaultTheme } from '../../theme/defaultTheme';
 import { getCookieValue, setCookieValue } from '../../utils/cookies';
 import CookieControl from '../cookieControl';
 import UpdatePreferences from '../updatePreferences';
-import CookieProviderStyled from './cookieProvider.styled';
 import { CookieProviderProps } from './cookieProvider.type';
 
 const cookieName = 'zen-cc';
@@ -97,16 +96,13 @@ const withCookieProvider =
       ]
     );
 
-    return (
+    return ( 
       <CookieContext.Provider value={cookieState}>
-        <CookieProviderStyled  data-nosnippet>
-        <h2 className='sr-only'>Cookie control banner</h2>
         <ThemeProvider theme={{ ...defaultTheme, ...theme }}>
           <CookieControl {...cookieControl} />
           <UpdatePreferences {...updatePreferences} />
         </ThemeProvider>
         <Component {...props} />
-        </CookieProviderStyled>
       </CookieContext.Provider>
     );
   };
