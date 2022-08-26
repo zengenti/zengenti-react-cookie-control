@@ -1,15 +1,23 @@
+import React from 'react';
+
+export interface IUpdatePreferencesProps {
+  summary: string;
+  cookies?: React.ReactNode;
+}
+
 export type UpdatePreferencesProps = {
-  analytics?: string;
   content?: string;
-  functional?: string;
-  marketing?: string;
-  necessary?: string;
+  analytics?: IUpdatePreferencesProps;
+  functional?: IUpdatePreferencesProps;
+  marketing?: IUpdatePreferencesProps;
+  necessary?: IUpdatePreferencesProps;
 };
 
 export type CookieSummaryWithToggleProps = {
   isChecked?: boolean;
   label?: string;
-  onClick?: () => void;
+  onClick?: () => void; 
   summary?: string;
-  title: string;
+  title?: string;
+  cookies?: React.ReactNode;
 };

@@ -1,5 +1,6 @@
 /// <reference types="react" />
 import * as react from 'react';
+import react__default from 'react';
 import { FlattenSimpleInterpolation } from 'styled-components';
 
 declare type ToggleUpdatePreferencesProps = {
@@ -55,12 +56,16 @@ declare type CookieControlProps = {
     content?: string;
 };
 
+interface IUpdatePreferencesProps {
+    summary: string;
+    cookies?: react__default.ReactNode;
+}
 declare type UpdatePreferencesProps = {
-    analytics?: string;
     content?: string;
-    functional?: string;
-    marketing?: string;
-    necessary?: string;
+    analytics?: IUpdatePreferencesProps;
+    functional?: IUpdatePreferencesProps;
+    marketing?: IUpdatePreferencesProps;
+    necessary?: IUpdatePreferencesProps;
 };
 
 declare type CookieProviderProps = {
