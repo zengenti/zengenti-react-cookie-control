@@ -15,6 +15,7 @@ const CookieSummaryWithToggle = ({
   onClick,
   summary,
   title,
+  cookies,
 }: CookieSummaryWithToggleProps) => {
   if (!summary && !label) return null;
   return (
@@ -34,6 +35,7 @@ const CookieSummaryWithToggle = ({
           onClick={onClick}
         />
       )}
+      {cookies}
     </div>
   );
 };
@@ -101,28 +103,32 @@ const UpdatePreferences = (props: UpdatePreferencesProps) => {
             />
           )}
           <CookieSummaryWithToggle
-            summary={props.necessary}
+            summary={props.necessary?.summary}
+            cookies={props.necessary?.cookies}
             title="Necessary Cookies"
           />
           <CookieSummaryWithToggle
             isChecked={functional}
             label="Functional"
             onClick={() => setFunctional(!functional)}
-            summary={props.functional}
+            summary={props.functional?.summary}
+            cookies={props.functional?.cookies}
             title="Functional Cookies"
           />
           <CookieSummaryWithToggle
             isChecked={analytics}
             label="Analytics"
             onClick={() => setAnalytics(!analytics)}
-            summary={props.analytics}
+            summary={props.analytics?.summary}
+            cookies={props.analytics?.cookies}
             title="Analytical Cookies"
           />
           <CookieSummaryWithToggle
             isChecked={marketing}
             label="Marketing"
             onClick={() => setMarketing(!marketing)}
-            summary={props.marketing}
+            summary={props.marketing?.summary}
+            cookies={props.marketing?.cookies}
             title="Marketing Cookies"
           />
           <div className="zen-cc-up__save">
