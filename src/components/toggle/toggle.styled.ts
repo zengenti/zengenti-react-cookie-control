@@ -34,7 +34,6 @@ const ToggleStyled = styled.span`
       &::before {
         background: ${theme?.toggle?.off?.background};
         border-radius: 20px;
-        box-shadow: rgba(0, 0, 0, 0.5) 1px 1px 3px 0 inset;
         height: 24px;
         left: 0;
         outline: 2px solid transparent;
@@ -45,7 +44,6 @@ const ToggleStyled = styled.span`
       &::after {
         background: #fff;
         border-radius: 50%;
-        box-shadow: rgba(0, 0, 0, 0.9) 1px 1px 3px 0;
         height: 16px;
         left: 4px;
         transition: left 200ms ease-in-out;

@@ -17,22 +17,22 @@ const CookieSummaryWithToggle = ({
   title,
   cookies,
 }: CookieSummaryWithToggleProps) => {
-  if (!summary && !label) return null;
+  if (!label) return null;
   return (
     <div className="zen-cc-up__section">
       <div className="zen-cc-up__title">{title}</div>
-      {summary && (
-        <div
-          className="zen-cc-up__summary"
-          dangerouslySetInnerHTML={{ __html: summary }}
-        />
-      )}
-      {label && onClick && (
+      {onClick && (
         <Toggle
           id={`cp-${label.toLowerCase().replace(/ /g, '-')}`}
           isChecked={!!isChecked}
           label={label}
           onClick={onClick}
+        />
+      )}
+      {summary && (
+        <div
+          className="zen-cc-up__summary"
+          dangerouslySetInnerHTML={{ __html: summary }}
         />
       )}
       {cookies}
@@ -103,6 +103,8 @@ const UpdatePreferences = (props: UpdatePreferencesProps) => {
             />
           )}
           <CookieSummaryWithToggle
+            isChecked={true}
+            label="Necessary"
             summary={props.necessary?.summary}
             cookies={props.necessary?.cookies}
             title="Necessary Cookies"
