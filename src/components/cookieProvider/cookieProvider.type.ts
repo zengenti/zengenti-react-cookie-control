@@ -10,6 +10,7 @@ export type CookieProviderProps = {
     marketing: boolean;
   };
   updatePreferences?: UpdatePreferencesProps;
+  cookieName?: string;
   theme?: {
     background?: string;
     button?: {

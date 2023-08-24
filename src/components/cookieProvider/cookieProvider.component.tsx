@@ -10,7 +10,7 @@ import CookieControl from '../cookieControl';
 import UpdatePreferences from '../updatePreferences';
 import { CookieProviderProps } from './cookieProvider.type';
 
-const cookieName = 'zen-cc';
+// const cookieName = 'zen-cc';
 const cookieExpiration = 90;
 
 const withCookieProvider =
@@ -19,6 +19,7 @@ const withCookieProvider =
     defaultCookiePreferences,
     updatePreferences,
     theme,
+    cookieName = 'zen-cc',
   }: CookieProviderProps) =>
   (Component: () => JSX.Element) =>
   ({ ...props }) => {
@@ -53,7 +54,7 @@ const withCookieProvider =
         if (
           history &&
           Object.keys(prev).some(
-            key =>
+            (key) =>
               prev[key as keyof typeof history] &&
               !next[key as keyof typeof history]
           )
@@ -85,7 +86,7 @@ const withCookieProvider =
         },
         showCookieControl,
         showUpdatePreferences,
-        toggleShowUpdatePreferences: () => setShowUpdatePreferences(s => !s),
+        toggleShowUpdatePreferences: () => setShowUpdatePreferences((s) => !s),
       }),
       [
         analytics,
@@ -96,7 +97,7 @@ const withCookieProvider =
       ]
     );
 
-    return ( 
+    return (
       <CookieContext.Provider value={cookieState}>
         <ThemeProvider theme={{ ...defaultTheme, ...theme }}>
           <CookieControl {...cookieControl} />

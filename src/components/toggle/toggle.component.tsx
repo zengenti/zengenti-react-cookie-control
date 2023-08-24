@@ -9,7 +9,9 @@ const Toggle = ({ id, isChecked, label, onClick }: ToggleProps) => {
         checked={isChecked}
         className="zen-cc-toggle__checkbox"
         id={id}
-        onChange={e => onClick()}
+        onChange={(e) => {
+          if (onClick) onClick(e);
+        }}
         type="checkbox"
       />
       <label className="zen-cc-toggle__label" htmlFor={id}>
