@@ -8,6 +8,7 @@ import { useCookieControl } from '../../utils/hooks/useCookieControl';
 import Toggle from '../toggle';
 import Button from '../button';
 import CloseButton from '../closeButton';
+import useFocusTrap from '../../utils/hooks/useTrapFocus';
 
 const CookieSummaryWithToggle = ({
   isChecked,
@@ -20,7 +21,7 @@ const CookieSummaryWithToggle = ({
   if (!label) return null;
   return (
     <div className="zen-cc-up__section">
-      <div className="zen-cc-up__title">{title}</div>
+      <div className="zen-cc-up__title">{title}</div> 
       {onClick && (
         <Toggle
           id={`cp-${label.toLowerCase().replace(/ /g, '-')}`}
@@ -85,8 +86,12 @@ const UpdatePreferences = (props: UpdatePreferencesProps) => {
   }, [showUpdatePreferences, toggleShowUpdatePreferences]);
 
 
-  return showUpdatePreferences ? (
-    <UpdatePreferencesStyled
+  const elContainerRef = useFocusTrap(showUpdatePreferences, toggleShowUpdatePreferences);
+
+  if (showUpdatePreferences) {
+    return (
+      <UpdatePreferencesStyled
+      ref={elContainerRef}
       data-nosnippet
       className={`zen-cc-up ${showUpdatePreferences ? 'open' : 'closed'}`}
     >
@@ -145,7 +150,8 @@ const UpdatePreferences = (props: UpdatePreferencesProps) => {
         </div>
       </div>
     </UpdatePreferencesStyled>
-  ) : null;
+    )
+  } else return null;
 };
 
 export default UpdatePreferences;
