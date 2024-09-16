@@ -5,10 +5,12 @@ export declare type CookieProviderProps = {
     cookieControl?: CookieControlProps;
     defaultCookiePreferences: {
         analytics: boolean;
+        advertising: boolean;
         functional: boolean;
         marketing: boolean;
     };
     updatePreferences?: UpdatePreferencesProps;
+    cookieName?: string;
     theme?: {
         background?: string;
         button?: {

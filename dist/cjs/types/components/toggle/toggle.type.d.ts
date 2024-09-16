@@ -1,6 +1,7 @@
+/// <reference types="react" />
 export declare type ToggleProps = {
     id: string;
     isChecked: boolean;
     label: string;
-    onClick: () => void;
+    onClick?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };

@@ -43,15 +43,17 @@ const CookieSummaryWithToggle = ({
 
 const UpdatePreferences = (props: UpdatePreferencesProps) => {
   const {
+    advertising,
     analytics,
     marketing,
     functional,
+    setAdvertising,
     setAnalytics,
     setMarketing,
     setFunctional,
-    showUpdatePreferences,
-    toggleShowUpdatePreferences,
-    updatePreferences,
+    isUpdatePreferencesVisible,
+    doToggleUpdatePreferences,
+    doUpdatePreferences,
   } = useCookieControl();
 
   const el = useRef<HTMLDivElement>(null);
@@ -61,10 +63,10 @@ const UpdatePreferences = (props: UpdatePreferencesProps) => {
     const eventHandler = (e: any) =>
       el.current &&
       !el.current.contains(e.target) &&
-      showUpdatePreferences &&
-      toggleShowUpdatePreferences();
+      isUpdatePreferencesVisible &&
+      doToggleUpdatePreferences();
 
-    if (showUpdatePreferences) {
+    if (isUpdatePreferencesVisible) {
       window.scrollTo({
         top: 0,
         behavior: 'smooth',
@@ -83,23 +85,23 @@ const UpdatePreferences = (props: UpdatePreferencesProps) => {
       document.body.style.overflow = originalStyle;
       document.removeEventListener('click', eventHandler, false);
     };
-  }, [showUpdatePreferences, toggleShowUpdatePreferences]);
+  }, [isUpdatePreferencesVisible, doToggleUpdatePreferences]);
 
 
-  const elContainerRef = useFocusTrap(showUpdatePreferences, toggleShowUpdatePreferences);
+  const elContainerRef = useFocusTrap(isUpdatePreferencesVisible, doToggleUpdatePreferences);
 
-  if (showUpdatePreferences) {
+  if (isUpdatePreferencesVisible) {
     return (
       <UpdatePreferencesStyled
       ref={elContainerRef}
       data-nosnippet
-      className={`zen-cc-up ${showUpdatePreferences ? 'open' : 'closed'}`}
+      className={`zen-cc-up ${isUpdatePreferencesVisible ? 'open' : 'closed'}`}
     >
       <h2 className='sr-only'>Cookie control banner</h2>
       <div className="zen-cc-up__modal" ref={el}>
         <div className="zen-cc-up__inner">
           <div className="zen-cc-up__close">
-            <CloseButton onClick={() => toggleShowUpdatePreferences()} />
+            <CloseButton onClick={() => doToggleUpdatePreferences()} />
           </div>
           {props.content && (
             <div
@@ -108,19 +110,12 @@ const UpdatePreferences = (props: UpdatePreferencesProps) => {
             />
           )}
           <CookieSummaryWithToggle
-            isChecked={true}
-            label="Necessary"
-            summary={props.necessary?.summary}
-            cookies={props.necessary?.cookies}
-            title="Necessary Cookies"
-          />
-          <CookieSummaryWithToggle
-            isChecked={functional}
-            label="Functional"
-            onClick={() => setFunctional(!functional)}
-            summary={props.functional?.summary}
-            cookies={props.functional?.cookies}
-            title="Functional Cookies"
+            isChecked={advertising}
+            label="Advertising"
+            onClick={() => setAdvertising(!advertising)}
+            summary={props.advertising?.summary}
+            cookies={props.advertising?.cookies}
+            title="Advertising Cookies"
           />
           <CookieSummaryWithToggle
             isChecked={analytics}
@@ -131,6 +126,14 @@ const UpdatePreferences = (props: UpdatePreferencesProps) => {
             title="Analytical Cookies"
           />
           <CookieSummaryWithToggle
+            isChecked={functional}
+            label="Functional"
+            onClick={() => setFunctional(!functional)}
+            summary={props.functional?.summary}
+            cookies={props.functional?.cookies}
+            title="Functional Cookies"
+          />
+          <CookieSummaryWithToggle
             isChecked={marketing}
             label="Marketing"
             onClick={() => setMarketing(!marketing)}
@@ -138,12 +141,21 @@ const UpdatePreferences = (props: UpdatePreferencesProps) => {
             cookies={props.marketing?.cookies}
             title="Marketing Cookies"
           />
+          <CookieSummaryWithToggle
+            isChecked={true}
+            label="Necessary"
+            summary={props.necessary?.summary}
+            cookies={props.necessary?.cookies}
+            title="Necessary Cookies"
+          />
           <div className="zen-cc-up__save">
             <Button
+              id="zen-cc-save"
               label="Save Preferences"
               onClick={() => {
-                updatePreferences();
-                toggleShowUpdatePreferences();
+                doUpdatePreferences();
+                doToggleUpdatePreferences();
+                window.location.reload(); // Refresh the page
               }}
             />
           </div>

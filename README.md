@@ -140,7 +140,7 @@ This component will be rendered if the user has not set any cookie preferences f
 
 ### Update Preferences Component
 
-This component can be toggled to show using the `toggleShowUpdatePreferences` function from the `useCookieControl` hook.
+This component can be toggled to show using the `doToggleUpdatePreferences` function from the `useCookieControl` hook.
 
 Alternatively you can import the `ToggleUpdatePreferences` component and style accordingly.
 
@@ -181,7 +181,7 @@ The following properties are available from the hook
 | setMarketing                | react.Dispatch<react.SetStateAction<boolean>>                    | Update marketing cookie preference                                               |
 | showUpdatePreferences       | boolean                                                          | Should the update preferences component be displayed                             |
 | showCookieControl           | boolean                                                          | Should the cookie control be displayed                                           |
-| toggleShowUpdatePreferences | () => void                                                       | Toggle visibility of update preferences component                                |
+| doToggleUpdatePreferences | () => void                                                       | Toggle visibility of update preferences component                                |
 | updatePreferences           | () => void                                                       | Save cookie preferences                                                          |
 
 An example component using this hook to inject scripts and "pixels" to the DOM

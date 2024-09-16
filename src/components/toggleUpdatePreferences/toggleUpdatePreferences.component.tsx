@@ -7,18 +7,20 @@ const ToggleUpdatePreferences = ({
   className,
   label = 'Cookie Preferences',
 }: ToggleUpdatePreferencesProps) => {
-  // We need to componentise this "toggle" as we need to access CookieContext
+  // We need to component-ise this "toggle" as we need to access CookieContext
   // Doing this higher up the tree would cause unnecessary rerenders
-  const { showCookieControl, toggleShowUpdatePreferences } = useCookieControl();
+  const { isCookieControlVisible, doToggleUpdatePreferences } = useCookieControl();
 
-  return !showCookieControl ? (
+  if (isCookieControlVisible) return null;
+
+  return (
     <ToggleUpdatePreferencesStyled
       className={className}
-      onClick={() => toggleShowUpdatePreferences()}
+      onClick={() => doToggleUpdatePreferences()}
     >
       {label}
     </ToggleUpdatePreferencesStyled>
-  ) : null;
+  );
 };
 
 export default ToggleUpdatePreferences;

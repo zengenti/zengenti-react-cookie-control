@@ -9,33 +9,38 @@ import CloseButton from '../closeButton';
 const CookieControl = ({ content }: CookieControlProps) => {
   const {
     acceptAll,
-    analytics,
     declineAll,
     defaultCookiePreferences,
+    analytics,
+    advertising,
     functional,
     marketing,
     setAnalytics,
+    setAdvertising,
     setFunctional,
     setMarketing,
-    showCookieControl,
-    updatePreferences,
+    isCookieControlVisible,
+    doUpdatePreferences,
   } = useCookieControl();
 
   useEffect(() => {
-    if (showCookieControl) {
+    if (isCookieControlVisible) {
       setAnalytics(defaultCookiePreferences.analytics);
+      setAdvertising(defaultCookiePreferences.advertising);
       setFunctional(defaultCookiePreferences.functional);
       setMarketing(defaultCookiePreferences.marketing);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showCookieControl]);
+  }, [isCookieControlVisible]);
 
-  return showCookieControl ? (
+  if (!isCookieControlVisible) return null;
+
+  return  (
     <CookieControlStyled className="zen-cc-cc" data-nosnippet>
       <h2 className="sr-only">Cookie control banner</h2>
       <div className="zen-cc-cc__inner">
         <div className="zen-cc-cc__close">
-          <CloseButton onClick={() => updatePreferences()} />
+          <CloseButton onClick={() => doUpdatePreferences()} />
         </div>
         <div className="zen-cc-cc__flex">
           <div>
@@ -46,11 +51,17 @@ const CookieControl = ({ content }: CookieControlProps) => {
               />
             )}
             <div className="zen-cc-cc__toggles">
-              <Toggle
-                id="cc-marketing"
-                isChecked={marketing}
-                label="Marketing"
-                onClick={() => setMarketing((s) => !s)}
+            <Toggle
+                id="cc-advertising"
+                isChecked={advertising}
+                label="Advertising"
+                onClick={() => setAdvertising((s) => !s)}
+              />
+            <Toggle
+                id="cc-analytics"
+                isChecked={analytics}
+                label="Analytics"
+                onClick={() => setAnalytics((s) => !s)}
               />
               <Toggle
                 id="cc-functional"
@@ -59,16 +70,17 @@ const CookieControl = ({ content }: CookieControlProps) => {
                 onClick={() => setFunctional((s) => !s)}
               />
               <Toggle
-                id="cc-analytics"
-                isChecked={analytics}
-                label="Analytics"
-                onClick={() => setAnalytics((s) => !s)}
+                id="cc-marketing"
+                isChecked={marketing}
+                label="Marketing"
+                onClick={() => setMarketing((s) => !s)}
               />
             </div>
           </div>
           <div className="zen-cc-cc__buttons">
             <div className="zen-cc-cc__button-wrap">
               <Button
+                id="zen-cc-accept-all"
                 label="Accept all"
                 onClick={() => acceptAll()}
                 type="hollow"
@@ -76,6 +88,7 @@ const CookieControl = ({ content }: CookieControlProps) => {
             </div>
             <div className="zen-cc-cc__button-wrap">
               <Button
+                id="zen-cc-decline-all"
                 label="Decline all"
                 onClick={() => declineAll()}
                 type="hollow"
@@ -83,15 +96,16 @@ const CookieControl = ({ content }: CookieControlProps) => {
             </div>
             <div className="zen-cc-cc__button-wrap">
               <Button
+                id="zen-cc-save"
                 label="Save preferences"
-                onClick={() => updatePreferences()}
+                onClick={() => doUpdatePreferences()}
               />
             </div>
           </div>
         </div>
       </div>
     </CookieControlStyled>
-  ) : null;
+  );
 };
 
 export default CookieControl;

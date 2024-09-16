@@ -6,6 +6,7 @@ export type CookieProviderProps = {
   cookieControl?: CookieControlProps;
   defaultCookiePreferences: {
     analytics: boolean;
+    advertising: boolean;
     functional: boolean;
     marketing: boolean;
   };

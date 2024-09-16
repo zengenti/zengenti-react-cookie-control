@@ -9,13 +9,14 @@ export const useCookieControl = () => {
   // Once the user has "saved" their preferences, these values are
   // passed to the CookieContext to update.
   const [analytics, setAnalytics] = useState(cookieContext.analytics);
+  const [advertising, setAdvertising] = useState(cookieContext.advertising);
   const [functional, setFunctional] = useState(cookieContext.functional);
   const [marketing, setMarketing] = useState(cookieContext.marketing);
 
   // Control when we want to trigger an update of CookieContext
   const [triggerUpdate, setTriggerUpdate] = useState(false);
 
-  const updatePreferences = () => {
+  const doUpdatePreferences = () => {
     setTriggerUpdate(true);
   };
 
@@ -25,6 +26,7 @@ export const useCookieControl = () => {
   // no values have changed
   useEffect(() => {
     setAnalytics(cookieContext.analytics);
+    setAdvertising(cookieContext.advertising);
     setFunctional(cookieContext.functional);
     setMarketing(cookieContext.marketing);
   }, [cookieContext]);
@@ -33,50 +35,58 @@ export const useCookieControl = () => {
   // to update state values
   useEffect(() => {
     if (triggerUpdate) {
-      cookieContext.set({ analytics, functional, marketing });
+      const consent = { analytics, advertising, functional, marketing };
+      cookieContext.set(consent);
+
       setTriggerUpdate(false);
     }
-  }, [analytics, cookieContext, functional, marketing, triggerUpdate]);
+  }, [cookieContext, analytics, advertising, functional, marketing, triggerUpdate]);
 
   return useMemo(
     () => ({
       /** Accept all cookie permissions */
       acceptAll: () => {
         setAnalytics(true);
+        setAdvertising(true);
         setFunctional(true);
         setMarketing(true);
-        updatePreferences();
+        doUpdatePreferences();
       },
-      /** Analytics cookies accepted/declined */
-      analytics,
       /** Decline all cookie permissions */
       declineAll: () => {
         setAnalytics(false);
+        setAdvertising(false);
         setFunctional(false);
         setMarketing(false);
-        updatePreferences();
+        doUpdatePreferences();
       },
       /** Default preferences to use as toggle values if no user preferences have been set */
       defaultCookiePreferences: cookieContext.defaultCookiePreferences,
+      /** Analytics cookies accepted/declined */
+      analytics,
+      /** Advertising cookies accepted/declined */
+      advertising,
       /** Functional cookies accepted/declined */
       functional,
       /** Marketing cookies accepted/declined */
       marketing,
       /** Update analytics cookie preference */
       setAnalytics,
+      /** Update advertising cookie preference */
+      setAdvertising,
       /** Update functional cookie preference */
       setFunctional,
       /** Update marketing cookie preference */
       setMarketing,
       /** Should the update preferences component be displayed */
-      showUpdatePreferences: cookieContext.showUpdatePreferences,
+      isUpdatePreferencesVisible: cookieContext.isUpdatePreferencesVisible,
       /** Should the cookie control be displayed */
-      showCookieControl: cookieContext.showCookieControl,
+      isCookieControlVisible: cookieContext.isCookieControlVisible,
       /** Toggle visibility of update preferences component */
-      toggleShowUpdatePreferences: cookieContext.toggleShowUpdatePreferences,
+      doToggleUpdatePreferences: cookieContext.doToggleUpdatePreferences,
       /** Save cookie preferences */
-      updatePreferences,
+      doUpdatePreferences,
     }),
-    [analytics, cookieContext, functional, marketing]
+    [analytics, advertising, functional, marketing, cookieContext]
   );
 };

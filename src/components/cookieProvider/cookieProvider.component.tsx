@@ -10,7 +10,6 @@ import CookieControl from '../cookieControl';
 import UpdatePreferences from '../updatePreferences';
 import { CookieProviderProps } from './cookieProvider.type';
 
-// const cookieName = 'zen-cc';
 const cookieExpiration = 90;
 
 const withCookieProvider =
@@ -19,15 +18,16 @@ const withCookieProvider =
     defaultCookiePreferences,
     updatePreferences,
     theme,
-    cookieName = 'zen-cc',
+    cookieName = '@Zengenti/Cookie/Control',
   }: CookieProviderProps) =>
   (Component: () => JSX.Element) =>
   ({ ...props }) => {
     const [analytics, setAnalytics] = useState(false);
+    const [advertising, setAdvertising] = useState(false);
     const [functional, setFunctional] = useState(false);
     const [marketing, setMarketing] = useState(false);
-    const [showCookieControl, setShowCookieControl] = useState(false);
-    const [showUpdatePreferences, setShowUpdatePreferences] = useState(false);
+    const [isCookieControlVisible, setCookieControlVisible] = useState(false);
+    const [isUpdatePreferencesVisible, setUpdatePreferencesVisible] = useState(false);
 
     const [history, setHistory] = useState<any>([]);
 
@@ -35,12 +35,13 @@ const withCookieProvider =
       const cookie = getCookieValue(cookieName);
 
       if (cookie) {
-        const { analytics, functional, marketing } = JSON.parse(cookie);
+        const { analytics, advertising, functional, marketing } = JSON.parse(cookie);
         setAnalytics(!!analytics);
+        setAdvertising(!!advertising);
         setFunctional(!!functional);
         setMarketing(!!marketing);
       } else {
-        setShowCookieControl(true);
+        setCookieControlVisible(true);
       }
     }, []);
 
@@ -68,32 +69,35 @@ const withCookieProvider =
 
     const cookieState = useMemo(
       (): CookieContextProps => ({
-        analytics,
         defaultCookiePreferences,
+        analytics,
+        advertising,
         marketing,
         functional,
-        set: ({ analytics, functional, marketing }) => {
+        set: ({ analytics, advertising, functional, marketing }) => {
           setAnalytics(analytics);
+          setAdvertising(advertising);
           setFunctional(functional);
           setMarketing(marketing);
-          setShowCookieControl(false);
+          setCookieControlVisible(false);
           setCookieValue(
             cookieName,
-            JSON.stringify({ analytics, functional, marketing }),
+            JSON.stringify({ analytics, advertising, functional, marketing }),
             cookieExpiration
           );
-          setHistory((s: any) => [...s, { analytics, functional, marketing }]);
+          setHistory((s: any) => [...s, { analytics, advertising, functional, marketing }]);
         },
-        showCookieControl,
-        showUpdatePreferences,
-        toggleShowUpdatePreferences: () => setShowUpdatePreferences((s) => !s),
+        isCookieControlVisible,
+        isUpdatePreferencesVisible,
+        doToggleUpdatePreferences: () => setUpdatePreferencesVisible((s) => !s),
       }),
       [
         analytics,
+        advertising,
         functional,
         marketing,
-        showCookieControl,
-        showUpdatePreferences,
+        isCookieControlVisible,
+        isUpdatePreferencesVisible,
       ]
     );
 

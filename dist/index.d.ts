@@ -13,34 +13,39 @@ declare const ToggleUpdatePreferences: ({ className, label, }: ToggleUpdatePrefe
 declare const useCookieControl: () => {
     /** Accept all cookie permissions */
     acceptAll: () => void;
-    /** Analytics cookies accepted/declined */
-    analytics: boolean;
     /** Decline all cookie permissions */
     declineAll: () => void;
     /** Default preferences to use as toggle values if no user preferences have been set */
     defaultCookiePreferences: {
         analytics: boolean;
+        advertising: boolean;
         functional: boolean;
         marketing: boolean;
     };
+    /** Analytics cookies accepted/declined */
+    analytics: boolean;
+    /** Advertising cookies accepted/declined */
+    advertising: boolean;
     /** Functional cookies accepted/declined */
     functional: boolean;
     /** Marketing cookies accepted/declined */
     marketing: boolean;
     /** Update analytics cookie preference */
     setAnalytics: react.Dispatch<react.SetStateAction<boolean>>;
+    /** Update advertising cookie preference */
+    setAdvertising: react.Dispatch<react.SetStateAction<boolean>>;
     /** Update functional cookie preference */
     setFunctional: react.Dispatch<react.SetStateAction<boolean>>;
     /** Update marketing cookie preference */
     setMarketing: react.Dispatch<react.SetStateAction<boolean>>;
     /** Should the update preferences component be displayed */
-    showUpdatePreferences: boolean;
+    isUpdatePreferencesVisible: boolean;
     /** Should the cookie control be displayed */
-    showCookieControl: boolean;
+    isCookieControlVisible: boolean;
     /** Toggle visibility of update preferences component */
-    toggleShowUpdatePreferences: () => void;
+    doToggleUpdatePreferences: () => void;
     /** Save cookie preferences */
-    updatePreferences: () => void;
+    doUpdatePreferences: () => void;
 };
 
 /**
@@ -50,7 +55,7 @@ declare const getCookieValue: (key: string) => string;
 /**
  * Set cookie value
  */
-declare const setCookieValue: (key: string, value: string, expiresInDays?: number | undefined) => void;
+declare const setCookieValue: (key: string, value: string, expiresInDays?: number | undefined, path?: string | undefined) => void;
 
 declare type CookieControlProps = {
     content?: string;
@@ -62,6 +67,7 @@ interface IUpdatePreferencesProps {
 }
 declare type UpdatePreferencesProps = {
     content?: string;
+    advertising?: IUpdatePreferencesProps;
     analytics?: IUpdatePreferencesProps;
     functional?: IUpdatePreferencesProps;
     marketing?: IUpdatePreferencesProps;
@@ -72,10 +78,12 @@ declare type CookieProviderProps = {
     cookieControl?: CookieControlProps;
     defaultCookiePreferences: {
         analytics: boolean;
+        advertising: boolean;
         functional: boolean;
         marketing: boolean;
     };
     updatePreferences?: UpdatePreferencesProps;
+    cookieName?: string;
     theme?: {
         background?: string;
         button?: {
@@ -127,7 +135,7 @@ declare type CookieProviderProps = {
     };
 };
 
-declare const withCookieProvider: ({ cookieControl, defaultCookiePreferences, updatePreferences, theme, }: CookieProviderProps) => (Component: () => JSX.Element) => ({ ...props }: {
+declare const withCookieProvider: ({ cookieControl, defaultCookiePreferences, updatePreferences, theme, cookieName, }: CookieProviderProps) => (Component: () => JSX.Element) => ({ ...props }: {
     [x: string]: any;
 }) => JSX.Element;
 

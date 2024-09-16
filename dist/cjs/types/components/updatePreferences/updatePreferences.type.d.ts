@@ -5,6 +5,7 @@ export interface IUpdatePreferencesProps {
 }
 export declare type UpdatePreferencesProps = {
     content?: string;
+    advertising?: IUpdatePreferencesProps;
     analytics?: IUpdatePreferencesProps;
     functional?: IUpdatePreferencesProps;
     marketing?: IUpdatePreferencesProps;
