@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
 export type CookieContextProps = {
-  defaultCookiePreferences: {
+  defaultPreferences: {
     analytics: boolean;
     advertising: boolean;
     functional: boolean;
@@ -23,7 +23,7 @@ export type CookieContextProps = {
 };
 
 const initialContext: CookieContextProps = {
-  defaultCookiePreferences: {
+  defaultPreferences: {
     analytics: false,
     advertising: false,
     functional: false,

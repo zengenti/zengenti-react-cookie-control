@@ -38,14 +38,16 @@ export const useCookieControl = () => {
       const consent = { analytics, advertising, functional, marketing };
       cookieContext.set(consent);
 
+      cookieContext.doToggleUpdatePreferences()
       setTriggerUpdate(false);
+      if (typeof window !== 'undefined') window.location.reload();
     }
   }, [cookieContext, analytics, advertising, functional, marketing, triggerUpdate]);
 
   return useMemo(
     () => ({
       /** Accept all cookie permissions */
-      acceptAll: () => {
+      doAccept: () => {
         setAnalytics(true);
         setAdvertising(true);
         setFunctional(true);
@@ -53,7 +55,7 @@ export const useCookieControl = () => {
         doUpdatePreferences();
       },
       /** Decline all cookie permissions */
-      declineAll: () => {
+      doDecline: () => {
         setAnalytics(false);
         setAdvertising(false);
         setFunctional(false);
@@ -61,7 +63,7 @@ export const useCookieControl = () => {
         doUpdatePreferences();
       },
       /** Default preferences to use as toggle values if no user preferences have been set */
-      defaultCookiePreferences: cookieContext.defaultCookiePreferences,
+      defaultPreferences: cookieContext.defaultPreferences,
       /** Analytics cookies accepted/declined */
       analytics,
       /** Advertising cookies accepted/declined */

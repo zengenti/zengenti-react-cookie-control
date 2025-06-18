@@ -1,0 +1,38 @@
+/// <reference types="react" />
+export declare const useCookieControl: () => {
+    /** Accept all cookie permissions */
+    doAccept: () => void;
+    /** Decline all cookie permissions */
+    doDecline: () => void;
+    /** Default preferences to use as toggle values if no user preferences have been set */
+    defaultPreferences: {
+        analytics: boolean;
+        advertising: boolean;
+        functional: boolean;
+        marketing: boolean;
+    };
+    /** Analytics cookies accepted/declined */
+    analytics: boolean;
+    /** Advertising cookies accepted/declined */
+    advertising: boolean;
+    /** Functional cookies accepted/declined */
+    functional: boolean;
+    /** Marketing cookies accepted/declined */
+    marketing: boolean;
+    /** Update analytics cookie preference */
+    setAnalytics: import("react").Dispatch<import("react").SetStateAction<boolean>>;
+    /** Update advertising cookie preference */
+    setAdvertising: import("react").Dispatch<import("react").SetStateAction<boolean>>;
+    /** Update functional cookie preference */
+    setFunctional: import("react").Dispatch<import("react").SetStateAction<boolean>>;
+    /** Update marketing cookie preference */
+    setMarketing: import("react").Dispatch<import("react").SetStateAction<boolean>>;
+    /** Should the update preferences component be displayed */
+    isUpdatePreferencesVisible: boolean;
+    /** Should the cookie control be displayed */
+    isCookieControlVisible: boolean;
+    /** Toggle visibility of update preferences component */
+    doToggleUpdatePreferences: () => void;
+    /** Save cookie preferences */
+    doUpdatePreferences: () => void;
+};

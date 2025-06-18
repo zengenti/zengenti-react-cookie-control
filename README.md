@@ -1,221 +1,160 @@
 # Zengenti React Cookie Control
 
-A cookie control for React projects.
+A flexible and accessible cookie consent solution for React projects. Includes:
 
-## Install
+- A modal for setting preferences
+- Hooks for controlling cookie behaviour
+- Fully configurable categories and themes
 
-```
+---
+
+## 🚀 Installation
+
+```bash
 npm install zengenti-react-cookie-control
 ```
 
-## Using
+## ⚙️ Setup
 
-### withCookieProvider
+Wrap your root app with withCookieProvider and pass in a settings object:
 
-This HOC should be added as high up the tree as possible to expose the context to all the application.
-
-This will automatically add the `Cookie Control` and `Update Preferences` components to the DOM.
-
-```
+```jsx
 import { withCookieProvider } from 'zengenti-react-cookie-control';
 
-const settings = {
-  ...
-};
+const settings = { ... };
 
-const AppRoot = () => {
-  ...
-}
+const App = () => <YourApp />;
 
-export default withCookieProvider(settings)(AppRoot);
-```
-
-The HOC take a settings object. The available properties are:
-
-| Property                 | Type                                                             | Description                                                                            |
-| ------------------------ | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| cookieControl            | CookieControlProps                                               | Properties to use in `Cookie Control` component                                        |
-| defaultCookiePreferences | { analytics: boolean; functional: boolean; marketing: boolean; } | The default values to render the "toggles" if no preferences have been set by the user |
-| updatePreferences        | UpdatePreferencesProps                                           | Properties to use in `Update Preferences` component                                    |
-| theme                    | Theme                                                            | CSS properties to be applied to the modules components                                 |
-
-<br>
-
-#### CookieControlProps
-
-| Property | Type   | Description                                              |
-| -------- | ------ | -------------------------------------------------------- |
-| content  | string | The content to display in the `Cookie Control` component |
-
-<br>
-
-#### UpdatePreferencesProps
-
-| Property   | Type   | Description                                                             |
-| ---------- | ------ | ----------------------------------------------------------------------- |
-| content    | string | The content to display at the top of the `Update Preferences` component |
-| analytics  | string | Description to display above the toggle for analytics cookies           |
-| functional | string | Description to display above the toggle for functional cookies          |
-| marketing  | string | Description to display above the toggle for marketing cookies           |
-| necessary  | string | Description to display for necessary cookies                            |
-
-<br>
-
-#### Theme
-
-The following type definition outlines the available properties that can be passed to the module.
-
-All components rendered by this module have class names applied which can be targeted using css.
-
-The button property also has a `customStyles` property where you can pass custom css to.
-Doing this will remove any default button styles applied to this modules components.
+export default withCookieProvider(settings)(App);
 
 ```
-theme?: {
-    background?: string;
-    button?: {
-        borderRadius?: string;
-        borderWidth?: string;
-        borderColor?: string;
-        color?: string;
-        customStyles?: string | FlattenSimpleInterpolation;
-        fontSize?: string;
-        lineHeight?: string;
-        padding?: string;
-        solid?: {
-            background?: string;
-            color?: string;
-            hover?: {
-                background?: string;
-                color?: string;
-            };
-        };
-    };
-    containerWidth?: string;
-    divideColor?: string;
-    heading?: {
-        color?: string;
-        fontFamily?: string;
-        fontSize?: string;
-        fontWeight?: string;
-        lineHeight?: string;
-    };
-    iconColor?: string;
-    linkColor?: string;
-    text?: {
-        color?: string;
-        fontFamily?: string;
-        fontSize?: string;
-        fontWeight?: string;
-        lineHeight?: string;
-    };
-    toggle?: {
-        off?: {
-            background?: string;
-            hover?: string;
-        };
-        on?: {
-            background?: string;
-            hover?: string;
-        };
-    };
-};
+
+
+### 🧩 Settings Structure
+| Key                        | Type                             | Required | Description                                                                   |
+|----------------------------|----------------------------------|----------|-------------------------------------------------------------------------------|
+| `config`                   | `Record<string, CookieCategory>` | ✅       | Defines each cookie category, description, and list of cookies.               |
+| `popup`                    | `object`                         | ✅       | Required popup banner config e.g. `{ text: "We like cookies 🍪" }`.           |
+| `defaultPreferences`       | `object`                         | ❌       | Initial preferences for each optional category (e.g. analytics, marketing).   |
+<!-- | `theme`                    | `object`                         | ❌       | Theme overrides (e.g. colours).                                             | -->
+
+
+#### Example Config Entry
+```json
+  {
+    essential: {
+      name: 'Necessary',
+      description: 'These cookies are needed for the site to work.',
+      cookies: [
+        {
+          name: '@Zengenti/Cookie/Control',
+          provider: 'Contensis',
+          expiration: '16 days',
+          purpose: 'Stores your cookie preferences.',
+        },
+      ],
+      required: true,
+    }
+  }
 ```
 
-<br>
+## 💡 Modal Trigger
+
+Use the ToggleCookieModal component to provide a button anywhere in your app (like in footers or headers) that opens the cookie preferences modal.
+
+```jsx
+import { ToggleCookieModal } from 'zengenti-react-cookie-control';
+
+const Footer = () => (
+  <footer>
+    {/* Other footer content */}
+    <ToggleCookieModal text="Cookie preferences" />
+  </footer>
+);
+```
 
 ---
 
-<br>
+## 🔧 useCookieControl Hook
 
-### Cookie Control Component
+`useCookieControl` is a React hook providing access to cookie preferences state and actions. It lets you read and update user consent preferences inside your components.
 
-This component will be rendered if the user has not set any cookie preferences for the site
+**Features:**
 
-<br>
+* Access current cookie preferences (`analytics`, `advertising`, `functional`, `marketing`).
+* Functions to accept all or decline all cookies.
+* Individual setters to toggle each preference.
+* Controls visibility of the preferences modal.
+* Saves updated preferences and optionally reloads the page.
 
----
+**Basic usage:**
 
-<br>
-
-### Update Preferences Component
-
-This component can be toggled to show using the `doToggleUpdatePreferences` function from the `useCookieControl` hook.
-
-Alternatively you can import the `ToggleUpdatePreferences` component and style accordingly.
-
-<br>
-
----
-
-<br>
-
-### ToggleUpdatePreferences
-
-This is a button element that will toggle the visibility of the `Update Preferences` component.
-
-This button can be added to any component / template and styled accordingly to suit the design needs.
-
-<br>
-
----
-
-<br>
-
-### useCookieControl hook
-
-This hook should be added to isolated components to prevent unnecessary re-rendering of elements in the tree.
-
-The following properties are available from the hook
-
-| Property                    | Type                                                             | Description                                                                      |
-| --------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| acceptAll                   | () => void                                                       | Accept all cookie permissions                                                    |
-| analytics                   | boolean                                                          | Analytics cookies accepted/declined                                              |
-| declineAll                  | () => void                                                       | Decline all cookie permissions                                                   |
-| defaultCookiePreferences    | { analytics: boolean; functional: boolean; marketing: boolean; } | Default preferences to use as toggle values if no user preferences have been set |
-| functional                  | boolean                                                          | Functional cookies accepted/declined                                             |
-| marketing                   | boolean                                                          | Marketing cookies accepted/declined                                              |
-| setAnalytics                | react.Dispatch<react.SetStateAction<boolean>>                    | Update analytics cookie preference                                               |
-| setFunctional               | react.Dispatch<react.SetStateAction<boolean>>                    | Update functional cookie preference                                              |
-| setMarketing                | react.Dispatch<react.SetStateAction<boolean>>                    | Update marketing cookie preference                                               |
-| showUpdatePreferences       | boolean                                                          | Should the update preferences component be displayed                             |
-| showCookieControl           | boolean                                                          | Should the cookie control be displayed                                           |
-| doToggleUpdatePreferences | () => void                                                       | Toggle visibility of update preferences component                                |
-| updatePreferences           | () => void                                                       | Save cookie preferences                                                          |
-
-An example component using this hook to inject scripts and "pixels" to the DOM
-
-```
-import React from 'react';
+```tsx
 import { useCookieControl } from 'zengenti-react-cookie-control';
 
-// function to inject scripts to the DOM
-const loadScript = (props: { id: string; src: string; }) => {
-  ...
-}
+const CookieSettings = () => {
+  const {
+    analytics,
+    advertising,
+    functional,
+    marketing,
+    setAnalytics,
+    setAdvertising,
+    setFunctional,
+    setMarketing,
+    doAccept,
+    doDecline,
+    doUpdatePreferences,
+    isUpdatePreferencesVisible,
+    doToggleUpdatePreferences,
+  } = useCookieControl();
 
-const InjectScripts = () => {
+  ...
+
+};
+```
+
+Use this hook to build custom cookie settings UI or trigger consent actions programmatically.
+
+## 🍪 Using `useCookieControl` to Load Scripts Conditionally
+
+You can use the `useCookieControl` hook to load or block tracking scripts based on user cookie preferences.
+
+```tsx
+import React, { useEffect } from 'react';
+import { useCookieControl } from 'zengenti-react-cookie-control';
+
+// Helper to inject a script only once
+const loadScript = ({ id, src }: { id: string; src: string }) => {
+  if (!document.getElementById(id)) {
+    const script = document.createElement('script');
+    script.id = id;
+    script.src = src;
+    script.async = true;
+    document.body.appendChild(script);
+  }
+};
+
+const ScriptLoader = () => {
   const { analytics, marketing } = useCookieControl();
 
+  // Load analytics script if allowed
   useEffect(() => {
-    loadScript({
-      id: 'trackingScripts-populo',
-      src: '/static/trackingScripts/populo.js',
-    });
-    ...
+    if (analytics) {
+      loadScript({ id: 'analytics-script', src: '/static/analytics.js' });
+    }
   }, [analytics]);
 
+  // Load marketing script if allowed
   useEffect(() => {
-    loadScript({
-      id: 'trackingScripts-linkedIn',
-      src: '/static/trackingScripts/linkedIn.js',
-    });
-    ...
+    if (marketing) {
+      loadScript({ id: 'marketing-script', src: '/static/marketing.js' });
+    }
   }, [marketing]);
 
   return (
     <>
+      {/* Marketing pixel loaded only if marketing cookies are allowed */}
       {marketing && (
         <img
           height="1"
@@ -229,5 +168,24 @@ const InjectScripts = () => {
   );
 };
 
-export default InjectScripts;
+export default ScriptLoader;
 ```
+
+### How it works:
+
+* useCookieControl provides booleans like analytics and marketing to know user consent.
+* Scripts are loaded inside useEffect only when consent is given.
+* This ensures tracking scripts run only if allowed, keeping your app compliant.
+* You can add similar logic for other cookie categories.
+
+
+---
+
+## 📜 License & Contributing
+
+This project is open source. Contributions are welcome.
+To contribute, please fork the repo, make your changes, and submit a pull request.
+
+---
+
+## 🎨 Theme (Coming Soon)
