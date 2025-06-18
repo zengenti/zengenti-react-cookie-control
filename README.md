@@ -31,31 +31,41 @@ export default withCookieProvider(settings)(App);
 
 
 ### 🧩 Settings Structure
-| Key                        | Type                             | Required | Description                                                                   |
-|----------------------------|----------------------------------|----------|-------------------------------------------------------------------------------|
-| `config`                   | `Record<string, CookieCategory>` | ✅       | Defines each cookie category, description, and list of cookies.               |
-| `popup`                    | `object`                         | ✅       | Required popup banner config e.g. `{ text: "We like cookies 🍪" }`.           |
-| `defaultPreferences`       | `object`                         | ❌       | Initial preferences for each optional category (e.g. analytics, marketing).   |
-<!-- | `theme`                    | `object`                         | ❌       | Theme overrides (e.g. colours).                                             | -->
+| Key                  | Type                                       | Required | Description                                                                          |
+| -------------------- | ------------------------------------------ | -------- | ------------------------------------------------------------------------------------ |
+| `config`             | `Record<string, CookieCategory>`           | ✅        | Configuration for cookie categories including their details and associated cookies. |
+| `popup`              | `object`                                   | ✅        | Popup banner text.                                                                  |
+| `modal`              | `{ title?: string; description?: string }` | ❌        | Title and description text for the cookie consent modal.                            |
+| `defaultPreferences` | `object`                                   | ❌        | Optional initial preferences for categories like analytics or marketing.            |
+
 
 
 #### Example Config Entry
-```json
-  {
-    essential: {
-      name: 'Necessary',
-      description: 'These cookies are needed for the site to work.',
-      cookies: [
-        {
-          name: '@Zengenti/Cookie/Control',
-          provider: 'Contensis',
-          expiration: '16 days',
-          purpose: 'Stores your cookie preferences.',
+```js
+    const cookiesConfig = {
+        config: {
+          essential: {
+            name: 'Necessary',
+            description: 'These cookies are needed for the site to work.',
+            cookies: [
+              {
+                name: '@Zengenti/Cookie/Control',
+                provider: 'Contensis',
+                expiration: '16 days',
+                purpose: 'Stores your cookie preferences.',
+              },
+            ],
+          required: true,
         },
-      ],
-      required: true,
+        ...
+      },
+      popup: { text: 'We like cookies 🍪 and you should too!' },
+      modal: {  
+        title: "Preferences",
+        description: "Change your cookie settings below to personalise your experience."
+      },
+      defaultPreferences: { functional: false ... }
     }
-  }
 ```
 
 ## 💡 Modal Trigger

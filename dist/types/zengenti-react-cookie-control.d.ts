@@ -67,6 +67,10 @@ type CookieCategoryConfig = {
     required?: boolean;
 };
 type CookieModalProps = {
+    modal?: {
+        title: string;
+        description: string;
+    };
     config: Record<string, CookieCategoryConfig>;
     isUpdatePreferencesVisibleOverride?: boolean;
 };

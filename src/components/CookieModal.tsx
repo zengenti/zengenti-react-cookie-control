@@ -20,13 +20,23 @@ type CookieCategoryConfig = {
 
 
 export type CookieModalProps = {
+  modal?: {  title: string; description: string; }
   config: Record<string, CookieCategoryConfig>;
   isUpdatePreferencesVisibleOverride?: boolean;
 }
 
-const CookieModal = ({ config, isUpdatePreferencesVisibleOverride = false }: CookieModalProps) => {
+const CookieModal = ({ 
+  modal,
+  config, 
+  isUpdatePreferencesVisibleOverride = false 
+}: CookieModalProps) => {
 
-  const [categories, setOpenCategories] = React.useState<Set<string>>(new Set(['essential']));
+  const { 
+    title = "Customise Consent Preferences", 
+    description = "We use cookies to ensure site functionality, analyse usage, and personalise content. Necessary cookies are always active; others require your consent and may affect your experience if disabled." 
+  } = modal || {}
+
+  const [categories, setOpenCategories] = React.useState<Set<string>>(new Set());
 
   const {
       advertising,
@@ -108,9 +118,9 @@ const CookieModal = ({ config, isUpdatePreferencesVisibleOverride = false }: Coo
       <div className='cookie-sidebar-container' ref={elModalRef}>
       <div className='cookie-sidebar-header-outer'>
         <div className='cookie-sidebar-header-inner'>
-          <h2 className='cookie-sidebar-title'>Customise Consent Preferences</h2>
+          <h2 className='cookie-sidebar-title'>{title}</h2>
         </div>
-        <p className='cookie-sidebar-text'>We use cookies to ensure site functionality, analyse usage, and personalise content. Essential cookies are always active; others require your consent and may affect your experience if disabled.</p>
+        <p className='cookie-sidebar-text'>{description}</p>
       </div>
       <ul className='cookie-sidebar-categories'>
       {(Object.keys(config) as Array<keyof typeof config>).map((key) => {
@@ -243,7 +253,7 @@ const CookieModalStyled = styled.div`
     max-width: 51.625rem;
     width: calc(100% - 2rem);
 
-    max-height: 39.375rem;
+    max-height: 28.8125rem;
     height: auto;
     flex: 1;
     flex-grow: 1;
