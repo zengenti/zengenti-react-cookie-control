@@ -1,16 +1,26 @@
-import React from 'react';
-import styled from 'styled-components';
-import Button from './Button';
-import { useCookieControl } from '../utils/hooks/useCookieControl';
+import React from "react";
+import styled from "styled-components";
+import Button from "./Button";
+import { useCookieControl } from "../utils/hooks/useCookieControl";
 
 export type CookiePopupProps = {
-  popup: { text: string }
-}
+  popup: { text: string };
+};
 
 const CookiePopup = ({ popup }: CookiePopupProps) => {
-  const { defaultPreferences, isCookieControlVisible, doAccept, doDecline, doToggleUpdatePreferences, setAdvertising, setAnalytics, setMarketing, setFunctional } = useCookieControl();
+  const {
+    defaultPreferences,
+    isCookieControlVisible,
+    doAccept,
+    doDecline,
+    doToggleUpdatePreferences,
+    setAdvertising,
+    setAnalytics,
+    setMarketing,
+    setFunctional,
+  } = useCookieControl();
 
-    React.useEffect(() => {
+  React.useEffect(() => {
     if (isCookieControlVisible) {
       setAnalytics(defaultPreferences.analytics);
       setAdvertising(defaultPreferences.advertising);
@@ -19,45 +29,58 @@ const CookiePopup = ({ popup }: CookiePopupProps) => {
     }
   }, [isCookieControlVisible]);
 
-  if (!isCookieControlVisible) return null; 
+  if (!isCookieControlVisible) return null;
 
   return (
     <CookiePopupStyled className="cookie-popup" data-nosnippet>
-      <div className='cookie-popup-content'> 
+      <div className="cookie-popup-content">
         <h2 className="cookie-popup-title sr-only">We value your privacy</h2>
         <div
           className="cookie-popup-text"
           dangerouslySetInnerHTML={{ __html: popup?.text }}
         />
-        <Button 
-          className='cookie-popup-button customise-btn' 
-          text="Customise" 
-          variant='hollow' 
+        <Button
+          className="cookie-popup-button customise-btn"
+          text="Customise"
+          variant="hollow"
           action={() => doToggleUpdatePreferences()}
         />
       </div>
-      <div className='cookie-popup-buttons'>
-        <Button className='cookie-popup-button accept-btn' text="Accept all" variant='solid' action={() => { doAccept(); }} />
-        <Button className='cookie-popup-button decline-btn' text="Decline all" variant='solid' action={() => { doDecline(); }} />
+      <div className="cookie-popup-buttons">
+        <Button
+          className="cookie-popup-button accept-btn"
+          text="Accept all"
+          variant="solid"
+          action={() => {
+            doAccept();
+          }}
+        />
+        <Button
+          className="cookie-popup-button decline-btn"
+          text="Decline all"
+          variant="solid"
+          action={() => {
+            doDecline();
+          }}
+        />
       </div>
     </CookiePopupStyled>
   );
 };
 
-
 const CookiePopupStyled = styled.div`
-  font-family: 'Poppins', sans-serif;
-  box-shadow: 0 0 1.5rem 0 rgba(127, 154, 198, 0.20);
+  font-family: "Poppins", sans-serif;
+  box-shadow: 0 0 1.5rem 0 rgba(127, 154, 198, 0.2);
   position: fixed;
   left: 0;
   bottom: 0;
+  z-index: 999;
   background: #fff;
   max-width: 20.5rem;
   width: 100%;
-  
+
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  
 
   @media screen and (min-width: 480px) {
     left: 1rem;
@@ -68,27 +91,26 @@ const CookiePopupStyled = styled.div`
     display: flex;
     flex-direction: row;
     align-items: flex-end;
-    gap: .125rem;
+    gap: 0.125rem;
   }
-
 
   .cookie-popup-title {
     font-size: 1rem;
     font-weight: 500;
     margin: 0 0 0.5rem;
-    
+
     @media screen and (min-width: 480px) {
       font-size: 1.25rem;
     }
   }
 
   .cookie-popup-text {
-    font-size: .875rem;
+    font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5rem;
 
     a {
-      color: #1D5FC2;
+      color: #1d5fc2;
       text-decoration: underline;
       &:hover {
         text-decoration: none;
@@ -106,11 +128,11 @@ const CookiePopupStyled = styled.div`
   .customise-btn {
     border: none;
     padding: 0;
-    color: #1D5FC2;
+    color: #1d5fc2;
     text-decoration: underline;
-    
+
     &:hover {
-      text-decoration: none
+      text-decoration: none;
     }
   }
 
@@ -119,7 +141,7 @@ const CookiePopupStyled = styled.div`
     align-items: center;
 
     gap: 0.5rem;
-    
+
     margin-top: 0.5rem;
   }
 
