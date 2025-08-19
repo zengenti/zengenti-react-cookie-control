@@ -1,10 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-import Button from './Button';
-import { useCookieControl } from '../utils/hooks/useCookieControl';
-import { Switch } from './Switch';
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
-import { FocusTrap } from 'focus-trap-react';
+import React from "react";
+import styled from "styled-components";
+import Button from "./Button";
+import { useCookieControl } from "../utils/hooks/useCookieControl";
+import { Switch } from "./Switch";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
+import { FocusTrap } from "focus-trap-react";
 
 type CookieCategoryConfig = {
   name: string;
@@ -18,45 +18,38 @@ type CookieCategoryConfig = {
   required?: boolean;
 };
 
-
 export type CookieModalProps = {
-  modal?: {  title: string; description: string; }
+  modal?: { title: string; description: string };
   config: Record<string, CookieCategoryConfig>;
-  isUpdatePreferencesVisibleOverride?: boolean;
-}
+};
 
-const CookieModal = ({ 
-  modal,
-  config, 
-  isUpdatePreferencesVisibleOverride = false 
-}: CookieModalProps) => {
+const CookieModal = ({ modal, config }: CookieModalProps) => {
+  const {
+    title = "Customise Consent Preferences",
+    description = "We use cookies to ensure site functionality, analyse usage, and personalise content. Necessary cookies are always active; others require your consent and may affect your experience if disabled.",
+  } = modal || {};
 
-  const { 
-    title = "Customise Consent Preferences", 
-    description = "We use cookies to ensure site functionality, analyse usage, and personalise content. Necessary cookies are always active; others require your consent and may affect your experience if disabled." 
-  } = modal || {}
-
-  const [categories, setOpenCategories] = React.useState<Set<string>>(new Set());
+  const [categories, setOpenCategories] = React.useState<Set<string>>(
+    new Set()
+  );
 
   const {
-      advertising,
-      analytics,
-      marketing,
-      functional,
-      setAdvertising,
-      setAnalytics,
-      setMarketing,
-      setFunctional,
-      isUpdatePreferencesVisible,
-      doUpdatePreferences,
-    } = useCookieControl();
+    advertising,
+    analytics,
+    marketing,
+    functional,
+    setAdvertising,
+    setAnalytics,
+    setMarketing,
+    setFunctional,
+    isUpdatePreferencesVisible,
+    doUpdatePreferences,
+  } = useCookieControl();
 
-  const isVisible = isUpdatePreferencesVisibleOverride || isUpdatePreferencesVisible;
-  
-  if (!isVisible) return null; 
+  if (!isUpdatePreferencesVisible) return null;
 
   const doToggleCategory = (key: string) => {
-    setOpenCategories(prev => {
+    setOpenCategories((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(key)) {
         newSet.delete(key);
@@ -67,170 +60,212 @@ const CookieModal = ({
     });
   };
 
-  const doTogglePreferences = (key: 'analytical' | 'advertising' | 'functional' | 'marketing') => {
-    
-    if (key === 'analytical') setAnalytics(!analytics);
-    if (key === 'advertising') setAdvertising(!advertising);
-    if (key === 'functional') setFunctional(!functional);
-    if (key === 'marketing') setMarketing(!marketing);
-  }
+  const doTogglePreferences = (
+    key: "analytical" | "advertising" | "functional" | "marketing"
+  ) => {
+    if (key === "analytical") setAnalytics(!analytics);
+    if (key === "advertising") setAdvertising(!advertising);
+    if (key === "functional") setFunctional(!functional);
+    if (key === "marketing") setMarketing(!marketing);
+  };
 
-    const getPreferences = (key: 'analytical' | 'advertising' | 'functional' | 'marketing') => {
-    if (key === 'analytical') return analytics;
-    if (key === 'advertising') return advertising;
-    if (key === 'functional') return functional;
-    if (key === 'marketing') return marketing;
-  }
+  const getPreferences = (
+    key: "analytical" | "advertising" | "functional" | "marketing"
+  ) => {
+    if (key === "analytical") return analytics;
+    if (key === "advertising") return advertising;
+    if (key === "functional") return functional;
+    if (key === "marketing") return marketing;
+  };
 
   const elModalRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    if (!isVisible || !elModalRef.current) return;
+    if (!isUpdatePreferencesVisible || !elModalRef.current) return;
+
+    const modalEl = elModalRef.current;
 
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        doUpdatePreferences(); 
+      if (e.key === "Escape") {
+        doUpdatePreferences();
       }
     };
 
     const onClickOutside = (e: MouseEvent) => {
-      if (elModalRef.current && !elModalRef.current.contains(e.target as Node)) {
-        doUpdatePreferences(); 
+      if (modalEl && !modalEl.contains(e.target as Node)) {
+        doUpdatePreferences();
       }
     };
 
-    document.addEventListener('keydown', onKeyDown);
-    document.addEventListener('mousedown', onClickOutside);
-    disableBodyScroll(elModalRef.current);
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("mousedown", onClickOutside);
+    disableBodyScroll(modalEl);
 
     return () => {
-      document.removeEventListener('keydown', onKeyDown);
-      document.removeEventListener('mousedown', onClickOutside);
-      enableBodyScroll(elModalRef.current!);
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("mousedown", onClickOutside);
+      enableBodyScroll(modalEl);
     };
-  }, [isVisible]);
-
+  }, [isUpdatePreferencesVisible]);
 
   return (
     <CookieModalStyled className="cookie-sidebar" data-nosnippet>
       <div className="cookie-sidebar-overlay" />
       <FocusTrap>
-      <div className='cookie-sidebar-container' ref={elModalRef}>
-      <div className='cookie-sidebar-header-outer'>
-        <div className='cookie-sidebar-header-inner'>
-          <h2 className='cookie-sidebar-title'>{title}</h2>
-        </div>
-        <p className='cookie-sidebar-text'>{description}</p>
-      </div>
-      <ul className='cookie-sidebar-categories'>
-      {(Object.keys(config) as Array<keyof typeof config>).map((key) => {
-          const category = config[key];
-          const isOpen = categories.has(key);
-          const isDefaultChecked = getPreferences(key as 'analytical' | 'advertising' | 'functional' | 'marketing');
+        <div className="cookie-sidebar-container" ref={elModalRef}>
+          <div className="cookie-sidebar-header-outer">
+            <div className="cookie-sidebar-header-inner">
+              <h2 className="cookie-sidebar-title">{title}</h2>
+            </div>
+            <p className="cookie-sidebar-text">{description}</p>
+          </div>
+          <ul className="cookie-sidebar-categories">
+            {(Object.keys(config) as Array<keyof typeof config>).map((key) => {
+              const category = config[key];
+              const isOpen = categories.has(key);
+              const isDefaultChecked = getPreferences(
+                key as "analytical" | "advertising" | "functional" | "marketing"
+              );
 
-          return (
-            <li key={key} className='cookie-sidebar-category'>
-              <div className='cookie-sidebar-category-header'>
-                <h3 className='cookie-sidebar-category-name'>
-                  <button 
-                      type="button" 
-                      onClick={() => doToggleCategory(key)}
-                      aria-label={isOpen ? 'Hide cookies' : 'View cookies'}
-                      className='cookie-sidebar-category-button'
-                      aria-expanded={isOpen}
-                      aria-controls={`category-cookies-${key}`}
-                    >
-                      {category.name}
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none"><path fill="#333" d="M10.667 5.333 7.805 8.195 4.943 5.333 4 6.276l3.805 3.805 3.804-3.805-.942-.943Z"/></svg>
-                    </button>
-                </h3>
-                {category.required ? (
-                  <div className='cookie-sidebar-category-required'>
-                    <span className='cookie-sidebar-category-pill'>Always Active</span>
-                    <Switch 
-                      className='cookie-sidebar-category-switch'
-                      label={category.name}
-                      disabled={true}
-                      defaultChecked={true}
-                      id={`cookie-category-${key}`}
-                    />
+              return (
+                <li key={key} className="cookie-sidebar-category">
+                  <div className="cookie-sidebar-category-header">
+                    <h3 className="cookie-sidebar-category-name">
+                      <button
+                        type="button"
+                        onClick={() => doToggleCategory(key)}
+                        aria-label={isOpen ? "Hide cookies" : "View cookies"}
+                        className="cookie-sidebar-category-button"
+                        aria-expanded={isOpen}
+                        aria-controls={`category-cookies-${key}`}
+                      >
+                        {category.name}
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          fill="none"
+                        >
+                          <path
+                            fill="#333"
+                            d="M10.667 5.333 7.805 8.195 4.943 5.333 4 6.276l3.805 3.805 3.804-3.805-.942-.943Z"
+                          />
+                        </svg>
+                      </button>
+                    </h3>
+                    {category.required ? (
+                      <div className="cookie-sidebar-category-required">
+                        <span className="cookie-sidebar-category-pill">
+                          Always Active
+                        </span>
+                        <Switch
+                          className="cookie-sidebar-category-switch"
+                          label={category.name}
+                          disabled={true}
+                          defaultChecked={true}
+                          id={`cookie-category-${key}`}
+                        />
+                      </div>
+                    ) : (
+                      <Switch
+                        className="cookie-sidebar-category-switch"
+                        label={category.name}
+                        defaultChecked={isDefaultChecked}
+                        id={`cookie-category-${key}`}
+                        action={() =>
+                          doTogglePreferences(
+                            key as
+                              | "analytical"
+                              | "advertising"
+                              | "functional"
+                              | "marketing"
+                          )
+                        }
+                      />
+                    )}
                   </div>
-                ) : (
-                  <Switch 
-                    className='cookie-sidebar-category-switch'
-                    label={category.name}
-                    defaultChecked={isDefaultChecked}
-                    id={`cookie-category-${key}`}
-                    action={() => doTogglePreferences(key as 'analytical' | 'advertising' | 'functional' | 'marketing')}
-                  />
-                )}
-              </div>
-              
-              {isOpen && (
-                category.cookies?.length >= 1 ? (
-                  <>
-                    <p className='cookie-sidebar-category-description'>{category.description}</p>
-                    <ul
-                      id={`category-cookies-${key}`}
-                      className='cookie-sidebar-category-cookies'
-                      aria-hidden={!isOpen}
-                    >
-                      {category.cookies.map((cookie) => (
-                        <li key={cookie?.name} className='cookie-sidebar-category-cookie'>
-                          <span className='cookie-sidebar-category-cookie-name'><b>Name:</b> {cookie.name}</span>
-                          <span className='cookie-sidebar-category-cookie-provider'><b>Provider:</b> {cookie.provider}</span>
-                          <span className='cookie-sidebar-category-cookie-purpose'><b>Purpose:</b> {cookie.purpose}</span>
-                          <span className='cookie-sidebar-category-cookie-expiration'><b>Expiration:</b> {cookie.expiration}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                ) : (
-                  <>
-                    <p className='cookie-sidebar-category-description'>{category.description}</p>
-                    <span className='cookie-sidebar-category-pill'>No cookies to show.</span>
-                  </>
-                )
-              )}
-            </li>
-          );
-        })}
-        
-      </ul>
-        <div className='cookie-sidebar-btns'> 
-          <Button className='cookie-sidebar-save' text="Save preferences" action={doUpdatePreferences} />
+
+                  {isOpen &&
+                    (category.cookies?.length >= 1 ? (
+                      <>
+                        <p className="cookie-sidebar-category-description">
+                          {category.description}
+                        </p>
+                        <ul
+                          id={`category-cookies-${key}`}
+                          className="cookie-sidebar-category-cookies"
+                          aria-hidden={!isOpen}
+                        >
+                          {category.cookies.map((cookie) => (
+                            <li
+                              key={cookie?.name}
+                              className="cookie-sidebar-category-cookie"
+                            >
+                              <span className="cookie-sidebar-category-cookie-name">
+                                <b>Name:</b> {cookie.name}
+                              </span>
+                              <span className="cookie-sidebar-category-cookie-provider">
+                                <b>Provider:</b> {cookie.provider}
+                              </span>
+                              <span className="cookie-sidebar-category-cookie-purpose">
+                                <b>Purpose:</b> {cookie.purpose}
+                              </span>
+                              <span className="cookie-sidebar-category-cookie-expiration">
+                                <b>Expiration:</b> {cookie.expiration}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    ) : (
+                      <>
+                        <p className="cookie-sidebar-category-description">
+                          {category.description}
+                        </p>
+                        <span className="cookie-sidebar-category-pill">
+                          No cookies to show.
+                        </span>
+                      </>
+                    ))}
+                </li>
+              );
+            })}
+          </ul>
+          <div className="cookie-sidebar-btns">
+            <Button
+              className="cookie-sidebar-save"
+              text="Save preferences"
+              action={doUpdatePreferences}
+            />
+          </div>
         </div>
-      </div>
       </FocusTrap>
     </CookieModalStyled>
   );
 };
 
 const CookieModalStyled = styled.div`
-    font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 
-  
-
-    position: fixed;
-    z-index: 999;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  position: fixed;
+  z-index: 999;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   .cookie-sidebar-overlay {
     position: fixed;
     inset: 0;
     z-index: 1;
-    background: rgba(6, 21, 30, 0.80);
+    background: rgba(6, 21, 30, 0.8);
     backdrop-filter: blur(2px);
   }
 
   .cookie-sidebar-container {
-
     border-radius: 0.5rem;
 
     display: flex;
@@ -238,7 +273,7 @@ const CookieModalStyled = styled.div`
     justify-content: flex-start;
     flex-direction: column;
 
-    gap: .5rem;
+    gap: 0.5rem;
 
     background: #fff;
     z-index: 99;
@@ -284,7 +319,7 @@ const CookieModalStyled = styled.div`
     display: flex;
     align-items: center;
 
-    flex-direction: column ;
+    flex-direction: column;
 
     gap: 0.5rem;
 
@@ -307,7 +342,7 @@ const CookieModalStyled = styled.div`
   .cookie-sidebar-text {
     margin: 0;
 
-    font-size: .875rem;
+    font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5rem;
     color: #333;
@@ -321,7 +356,6 @@ const CookieModalStyled = styled.div`
     flex-direction: column;
 
     width: 100%;
-
   }
 
   .cookie-sidebar-category {
@@ -333,7 +367,7 @@ const CookieModalStyled = styled.div`
     gap: 0.5rem;
 
     border-bottom: #e0e0e0 1px solid;
-    padding: .5rem 1rem;
+    padding: 0.5rem 1rem;
   }
 
   .cookie-sidebar-category-header {
@@ -350,11 +384,10 @@ const CookieModalStyled = styled.div`
     width: 100%;
   }
 
-
   .cookie-sidebar-category-description {
     margin: 0;
 
-    font-size: .875rem;
+    font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5rem;
   }
@@ -374,11 +407,11 @@ const CookieModalStyled = styled.div`
 
   .cookie-sidebar-category-pill {
     padding: 0 0.5rem;
-    font-size: .75rem;
+    font-size: 0.75rem;
     font-weight: 400;
     line-height: 1.5rem;
 
-    border-radius: .5rem;
+    border-radius: 0.5rem;
     border: 1px solid #757575;
 
     align-self: flex-start;
@@ -390,7 +423,7 @@ const CookieModalStyled = styled.div`
 
     width: 100%;
 
-    font-size: .875rem;
+    font-size: 0.875rem;
     font-weight: 600;
     line-height: 1.5rem;
 
@@ -399,7 +432,7 @@ const CookieModalStyled = styled.div`
     border: none;
     padding: 0;
 
-    cursor:  pointer;
+    cursor: pointer;
 
     display: flex;
     align-items: center;
@@ -422,22 +455,22 @@ const CookieModalStyled = styled.div`
     margin: 0;
     padding: 0;
 
-    background: #F4F4F4;
+    background: #f4f4f4;
   }
 
   .cookie-sidebar-category-cookie {
-    display: flex;        
+    display: flex;
     flex-direction: column;
-    padding: .5rem;
+    padding: 0.5rem;
 
     &:not(:last-child) {
       border-bottom: #e0e0e0 1px solid;
     }
 
     span {
-      font-size: .75rem;
+      font-size: 0.75rem;
       font-weight: 400;
-      line-height: 1.5rem
+      line-height: 1.5rem;
     }
   }
 
@@ -446,7 +479,7 @@ const CookieModalStyled = styled.div`
   }
 
   .cookie-sidebar-save {
-    margin-top: .5rem;
+    margin-top: 0.5rem;
   }
 `;
 

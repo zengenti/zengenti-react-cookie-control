@@ -1,92 +1,83 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
-import { CookieContext } from '../../context/cookie.context';
+import { useContext, useEffect, useMemo, useState } from "react";
+import { CookieContext } from "../../context/cookie.context";
 
 export const useCookieControl = () => {
-  // Load our CookieContext state
   const cookieContext = useContext(CookieContext);
 
-  // Store each preference as local state here to allow for "toggling"
-  // Once the user has "saved" their preferences, these values are
-  // passed to the CookieContext to update.
+  // Local state for user preferences
   const [analytics, setAnalytics] = useState(cookieContext.analytics);
   const [advertising, setAdvertising] = useState(cookieContext.advertising);
   const [functional, setFunctional] = useState(cookieContext.functional);
   const [marketing, setMarketing] = useState(cookieContext.marketing);
 
-  // Control when we want to trigger an update of CookieContext
-  const [triggerUpdate, setTriggerUpdate] = useState(false);
-
-  const doUpdatePreferences = () => {
-    setTriggerUpdate(true);
-  };
-
-  // When CookieContext is updated (eg reading in initial cookies)
-  // We need to update our local state values
-  // The use of useMemo on the return will prevent re-renders if
-  // no values have changed
+  // Sync local state with context whenever context values change
   useEffect(() => {
     setAnalytics(cookieContext.analytics);
     setAdvertising(cookieContext.advertising);
     setFunctional(cookieContext.functional);
     setMarketing(cookieContext.marketing);
-  }, [cookieContext]);
+  }, [
+    cookieContext.analytics,
+    cookieContext.advertising,
+    cookieContext.functional,
+    cookieContext.marketing,
+  ]);
 
-  // When we trigger an update call "set" function on CookieContext
-  // to update state values
-  useEffect(() => {
-    if (triggerUpdate) {
-      const consent = { analytics, advertising, functional, marketing };
-      cookieContext.set(consent);
-
-      cookieContext.doToggleUpdatePreferences()
-      setTriggerUpdate(false);
-      if (typeof window !== 'undefined') window.location.reload();
-    }
-  }, [cookieContext, analytics, advertising, functional, marketing, triggerUpdate]);
+  // Function to update all preferences in the context
+  const doUpdatePreferences = () => {
+    const consent = { analytics, advertising, functional, marketing };
+    cookieContext.set(consent);
+    cookieContext.doToggleUpdatePreferences?.();
+  };
 
   return useMemo(
     () => ({
       /** Accept all cookie permissions */
       doAccept: () => {
+        const consent = {
+          analytics: true,
+          advertising: true,
+          functional: true,
+          marketing: true,
+        };
+        cookieContext.set(consent); // immediately save
         setAnalytics(true);
         setAdvertising(true);
         setFunctional(true);
         setMarketing(true);
-        doUpdatePreferences();
       },
       /** Decline all cookie permissions */
       doDecline: () => {
+        const consent = {
+          analytics: false,
+          advertising: false,
+          functional: false,
+          marketing: false,
+        };
+        cookieContext.set(consent); // immediately save
         setAnalytics(false);
         setAdvertising(false);
         setFunctional(false);
         setMarketing(false);
-        doUpdatePreferences();
       },
-      /** Default preferences to use as toggle values if no user preferences have been set */
+      /** Default preferences to use if no user preferences have been set */
       defaultPreferences: cookieContext.defaultPreferences,
-      /** Analytics cookies accepted/declined */
+      /** Individual preferences */
       analytics,
-      /** Advertising cookies accepted/declined */
       advertising,
-      /** Functional cookies accepted/declined */
       functional,
-      /** Marketing cookies accepted/declined */
       marketing,
-      /** Update analytics cookie preference */
+      /** Setters for individual preferences */
       setAnalytics,
-      /** Update advertising cookie preference */
       setAdvertising,
-      /** Update functional cookie preference */
       setFunctional,
-      /** Update marketing cookie preference */
       setMarketing,
-      /** Should the update preferences component be displayed */
+      /** Visibility flags */
       isUpdatePreferencesVisible: cookieContext.isUpdatePreferencesVisible,
-      /** Should the cookie control be displayed */
       isCookieControlVisible: cookieContext.isCookieControlVisible,
-      /** Toggle visibility of update preferences component */
+      /** Toggle update preferences UI */
       doToggleUpdatePreferences: cookieContext.doToggleUpdatePreferences,
-      /** Save cookie preferences */
+      /** Save preferences */
       doUpdatePreferences,
     }),
     [analytics, advertising, functional, marketing, cookieContext]
