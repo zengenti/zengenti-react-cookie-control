@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 type CookieCategoryConfig = {
     name: string;
     description: string;
@@ -16,7 +16,6 @@ export type CookieModalProps = {
         description: string;
     };
     config: Record<string, CookieCategoryConfig>;
-    isUpdatePreferencesVisibleOverride?: boolean;
 };
-declare const CookieModal: ({ modal, config, isUpdatePreferencesVisibleOverride }: CookieModalProps) => React.JSX.Element | null;
+declare const CookieModal: ({ modal, config }: CookieModalProps) => React.JSX.Element | null;
 export default CookieModal;

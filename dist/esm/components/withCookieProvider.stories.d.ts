@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 declare const _default: {
     title: string;
     component: ({ ...props }: {

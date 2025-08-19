@@ -7,36 +7,29 @@ declare const useCookieControl: () => {
     doAccept: () => void;
     /** Decline all cookie permissions */
     doDecline: () => void;
-    /** Default preferences to use as toggle values if no user preferences have been set */
+    /** Default preferences to use if no user preferences have been set */
     defaultPreferences: {
         analytics: boolean;
         advertising: boolean;
         functional: boolean;
         marketing: boolean;
     };
-    /** Analytics cookies accepted/declined */
+    /** Individual preferences */
     analytics: boolean;
-    /** Advertising cookies accepted/declined */
     advertising: boolean;
-    /** Functional cookies accepted/declined */
     functional: boolean;
-    /** Marketing cookies accepted/declined */
     marketing: boolean;
-    /** Update analytics cookie preference */
+    /** Setters for individual preferences */
     setAnalytics: react.Dispatch<react.SetStateAction<boolean>>;
-    /** Update advertising cookie preference */
     setAdvertising: react.Dispatch<react.SetStateAction<boolean>>;
-    /** Update functional cookie preference */
     setFunctional: react.Dispatch<react.SetStateAction<boolean>>;
-    /** Update marketing cookie preference */
     setMarketing: react.Dispatch<react.SetStateAction<boolean>>;
-    /** Should the update preferences component be displayed */
+    /** Visibility flags */
     isUpdatePreferencesVisible: boolean;
-    /** Should the cookie control be displayed */
     isCookieControlVisible: boolean;
-    /** Toggle visibility of update preferences component */
+    /** Toggle update preferences UI */
     doToggleUpdatePreferences: () => void;
-    /** Save cookie preferences */
+    /** Save preferences */
     doUpdatePreferences: () => void;
 };
 
@@ -72,7 +65,6 @@ type CookieModalProps = {
         description: string;
     };
     config: Record<string, CookieCategoryConfig>;
-    isUpdatePreferencesVisibleOverride?: boolean;
 };
 
 type CookiePopupProps = {
